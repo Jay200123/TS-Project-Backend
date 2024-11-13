@@ -16,3 +16,5 @@ const TestSchema: Schema<ITest> = new Schema({
 });
 
 const Test = model<ITest>(RESOURCE.TESTS, TestSchema);
+
+export default Test;
