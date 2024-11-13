@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import express, { Router, Request, Response, NextFunction } from 'express';
 
 type Middleware = (
     req: Request,
@@ -12,10 +12,20 @@ type Route = {
     handler: Middleware;
 }
 
+type ErrorMiddleware = (
+    err: any,
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => void;
+
+
 export {
+    express,
     Route,
     Router,
     Request,
     Response,
     NextFunction,
+    ErrorMiddleware
 }
