@@ -1,7 +1,8 @@
-import { Schema, model, Document } from 'mongoose';
+import mongoose, { Schema, model, Document, } from 'mongoose';
 
 export {
     Schema,
     model,
-    Document
+    Document,
+    mongoose
 }
