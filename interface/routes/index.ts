@@ -1,10 +1,10 @@
 import { Router, Request, Response, NextFunction } from 'express';
 
-type Middleware = {
+type Middleware = (
     req: Request,
     res: Response,
     next: NextFunction
-}
+) => void;
 
 type Route = {
     method: keyof Router,
@@ -12,8 +12,9 @@ type Route = {
     handler: Middleware;
 }
 
-export type {
+export {
     Route,
+    Router,
     Request,
     Response,
     NextFunction,
