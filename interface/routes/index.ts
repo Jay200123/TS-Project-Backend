@@ -12,4 +12,9 @@ type Route = {
     handler: Middleware;
 }
 
-export type { Route }
+export type {
+    Route,
+    Request,
+    Response,
+    NextFunction,
+}
