@@ -1,9 +1,9 @@
 import { Document } from "../schema";
 import { Image } from "../image";
 
-interface Test extends Document {
+interface ITest extends Document {
     name: string;
     image: Image[];
 }
 
-export type { Test }
+export type { ITest }
