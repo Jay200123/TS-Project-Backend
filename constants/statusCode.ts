@@ -9,5 +9,6 @@ export const STATUSCODE = {
     CONFLICT: 409,
     INTERNAL_SERVER_ERROR: 500,
     ONE: 1,
+    ZERO: 0
 
 }
