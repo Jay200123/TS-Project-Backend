@@ -32,8 +32,8 @@ const testRouter: Route[] = [
     }
 ];
 
-testRouter.forEach((router) => {
-    const { method, path, handler } = router;
+testRouter.forEach((route) => {
+    const { method, path, handler } = route;
     router[method as any](path, handler);
 });
 
