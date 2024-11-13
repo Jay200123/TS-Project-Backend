@@ -1,11 +1,12 @@
 import { mongoose } from "../interface";
 import { STATUSCODE } from "../constants";
 
-export const connectDb = async () => {
+export const connectDB = async () => {
     try {
-        mongoose.set('strictQuery', true);
+        mongoose.set("strictQuery", false);
         await mongoose.connect(process.env.DATABASE_URI);
     } catch (err) {
+        console.log(err);
         process.exit(STATUSCODE.ONE);
     }
 }
