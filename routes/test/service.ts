@@ -9,8 +9,8 @@ const getById = async (id: string) => {
     return await Test.findById(id);
 };
 
-const create = async (data: ITest) => {
-    return await create(data);
+const Add = async (data: ITest) => {
+    return await Test.create(data);
 };
 
 const updateById = async (id: string, data: ITest) => {
@@ -24,7 +24,7 @@ const deleteById = async (id: string) => {
 export default {
     getAll,
     getById,
-    create,
+    Add,
     updateById,
     deleteById
 }
