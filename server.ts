@@ -4,6 +4,7 @@ import { test, user, auth } from "./routes";
 import { upload } from "./utils";
 import { errorJson, errorHandler } from "./middleware";
 import path from "path";
+import cookieParser from "cookie-parser";
 
 globalEnvironment();
 connectDB();
@@ -13,6 +14,8 @@ app.use(upload.array('image'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cookieParser());
+
 
 
 app.get("/", (req, res) => {
