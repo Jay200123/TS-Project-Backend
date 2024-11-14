@@ -17,20 +17,22 @@ const verifyToken = async (req: AuthenticatedRequest, res: Response, next: NextF
             return next(new ErrorHandler("Authorization header missing"));
         }
 
-        if (findBlacklist(req.headers['authorization'].split(' ')[1])) {
+        const token = req.headers['authorization'].split(' ')[1];
+
+        if (await findBlacklist(token)) {
             return next(new ErrorHandler("User must login first"));
         }
 
-        const decode = jwt.verify(req.headers['authorization'].split(' ')[1], process.env.JWT_SECRET) as DecodeToken;
+        const decode = jwt.verify(token, process.env.JWT_SECRET) as DecodeToken;
         req.user = await userService.getById(decode._id);
         next();
     } catch (err) {
-        return next(new ErrorHandler("User must login first"));
+        return next(new ErrorHandler(err.message))
     }
 }
 
 const userRole = (...roles: string[]) => {
-    return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    return async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
         if (!roles?.includes(req?.user?.role)) {
             return next(
                 new ErrorHandler(
@@ -40,7 +42,7 @@ const userRole = (...roles: string[]) => {
             );
         }
         next();
-    }
+    };
 }
 
 export {
