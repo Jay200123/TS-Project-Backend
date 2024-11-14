@@ -1,6 +1,6 @@
 import { express, mongoose } from "./interface";
 import { globalEnvironment, connectDB } from "./config";
-import { test } from "./routes";
+import { test, user } from "./routes";
 import { upload } from "./utils";
 import { errorJson, errorHandler } from "./middleware";
 import path from "path";
@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 })
 
-app.use("/api/v1", test);
+app.use("/api/v1", user, test);
 
 app.all("*", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "notFound.html"));
@@ -31,6 +31,7 @@ app.use(errorHandler);
 mongoose.connection.once('open', () => {
     app.listen(process.env.PORT);
     console.log(`Server running on ${process.env.PORT}`);
+    console.log(`Mongoose Database connected`)
 });
 
 mongoose.connection.on('error', (err) => {
