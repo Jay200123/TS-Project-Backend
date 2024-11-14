@@ -21,7 +21,7 @@ const getTestById = async (req: Request, res: Response, next: NextFunction) => {
 
 const createTest = async (req: Request, res: Response, next: NextFunction) => {
     const image = await uploadImage(req.files as Express.Multer.File[], []);
-    const data = await testService.create(
+    const data = await testService.Add(
         {
             ...req.body,
             image: image,
@@ -48,14 +48,16 @@ const updateTestById = async (req: Request, res: Response, next: NextFunction) =
 }
 
 const deleteTestById = async (req: Request, res: Response, next: NextFunction) => {
-    const data = await testService.getById(req.params.id);
-    const testImage = Array.isArray(data?.image) ? data.image.map((i) => i?.public_id) : [];
+    const test = await testService.getById(req.params.id);
+    const testImage = Array.isArray(test?.image) ? test.image.map((i) => i?.public_id) : [];
     await cloudinary.api.delete_resources(testImage)
+
+    const data = await testService.deleteById(req.params.id);
 
     return next(SuccessHandler(res, 'Test deleted successfully', data))
 }
 
-export default {
+export {
     getAllTests,
     getTestById,
     createTest,
