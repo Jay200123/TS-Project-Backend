@@ -1,4 +1,5 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
+import { AuthenticatedRequest } from '../middleware';
 
 type Middleware = (
     req: Request,
@@ -6,9 +7,17 @@ type Middleware = (
     next: NextFunction
 ) => void;
 
+type AuthMiddleware = (
+    req: AuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+) => void;
+
 type Route = {
     method: keyof Router,
     path: string,
+    middleware?: AuthMiddleware[],
+    role?: string | string[],
     handler: Middleware;
 }
 
