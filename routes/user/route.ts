@@ -16,6 +16,11 @@ const userRouter = [
         handler: userController.getUserById
     },
     {
+        method: METHOD.POST,
+        path: PATH.USERS,
+        handler: userController.createUser
+    },
+    {
         method: METHOD.PATCH,
         path: PATH.EDIT_USER_ID,
         handler: userController.updateUserById
