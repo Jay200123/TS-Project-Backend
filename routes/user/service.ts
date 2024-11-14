@@ -9,6 +9,10 @@ const getById = async (id: string) => {
     return await User.findById(id);
 };
 
+const getByEmail = async (email: string) => {
+    return await User.findOne({ email });
+}
+
 const Add = async (data: IUser) => {
     return await User.create(data);
 };
@@ -24,6 +28,7 @@ const deleteById = async (id: string) => {
 export default {
     getAll,
     getById,
+    getByEmail,
     Add,
     updateById,
     deleteById
