@@ -1,6 +1,6 @@
 import { express, mongoose } from "./interface";
 import { globalEnvironment, connectDB } from "./config";
-import { test, user } from "./routes";
+import { test, user, auth } from "./routes";
 import { upload } from "./utils";
 import { errorJson, errorHandler } from "./middleware";
 import path from "path";
@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 })
 
-app.use("/api/v1", user, test);
+app.use("/api/v1", auth, test, user);
 
 app.all("*", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "notFound.html"));
