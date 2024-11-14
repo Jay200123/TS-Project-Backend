@@ -9,6 +9,7 @@ import userService from "../routes/user/service";
 import { ErrorHandler } from "../utils";
 import { jwt } from "../interface";
 import { findBlacklist } from "./blacklist";
+import { STATUSCODE } from "../constants";
 
 const verifyToken = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     try {
@@ -28,6 +29,21 @@ const verifyToken = async (req: AuthenticatedRequest, res: Response, next: NextF
     }
 }
 
+const userRole = (...roles: string[]) => {
+    return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        if (!roles?.includes(req?.user?.role)) {
+            return next(
+                new ErrorHandler(
+                    `You are not authorized to access this resource`,
+                    STATUSCODE.FORBIDDEN
+                )
+            );
+        }
+        next();
+    }
+}
+
 export {
     verifyToken,
+    userRole
 }
