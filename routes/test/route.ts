@@ -1,4 +1,4 @@
-import testController from "./controller";
+import * as testController from "./controller";
 import { Router, Route } from "../../interface";
 import { METHOD, PATH } from "../../constants";
 
