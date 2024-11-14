@@ -1,4 +1,5 @@
 export const RESOURCE = {
     USERS: "users",
-    TESTS: "tests"
+    TESTS: "tests",
+    BLACKLIST: "blacklist",
 }
