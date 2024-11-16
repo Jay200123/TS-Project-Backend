@@ -5,6 +5,8 @@ import { upload } from "./utils";
 import { errorJson, errorHandler } from "./middleware";
 import path from "path";
 import cookieParser from "cookie-parser";
+import cors from "cors";
+import { allowedOrigins } from "./config/allowedOrigins";
 
 globalEnvironment();
 connectDB();
@@ -15,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
+app.use(cors(allowedOrigins))
 
 
 
