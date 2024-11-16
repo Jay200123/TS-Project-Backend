@@ -18,8 +18,9 @@ const verifyToken = async (req: AuthenticatedRequest, res: Response, next: NextF
         }
 
         const token = req.headers['authorization'].split(' ')[1];
+        const isBlackListed = await findBlacklist(token);
 
-        if (await findBlacklist(token)) {
+        if (isBlackListed) {
             return next(new ErrorHandler("User must login first"));
         }
 
