@@ -6,7 +6,7 @@ import { errorJson, errorHandler } from "./middleware";
 import path from "path";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { allowedOrigins } from "./config/allowedOrigins";
+import corsOptions from "./config/corsOption";
 
 globalEnvironment();
 connectDB();
@@ -17,9 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
-app.use(cors(allowedOrigins))
-
-
+app.use(cors(corsOptions))
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
