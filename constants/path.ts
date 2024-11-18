@@ -7,4 +7,7 @@ export const PATH = {
     EDIT_USER_ID: "/user/edit/:id",
     LOGIN: "/login",
     LOGOUT: "/logout",
+    BRANCHES: "/branches",
+    BRANCH_ID: "/branch/:id",
+    EDIT_BRANCH_ID: "/branch/edit/:id",
 }
