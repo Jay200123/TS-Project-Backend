@@ -6,18 +6,25 @@ const BranchSchema: Schema<IBranch> = new Schema({
         type: String,
         required: true
     },
-    branch_address: {
+    address: {
         type: String,
         required: true
     },
-    branch_phone: {
+    phone: {
         type: String,
         required: true
     },
-    branch_email: {
+    email: {
         type: String,
         required: true
-    }
+    },
+    image: [
+        {
+            public_id: String,
+            url: String,
+            originalname: String
+        }
+    ]
 });
 
 const Branch = model<IBranch>(RESOURCE.BRANCH, BranchSchema);
