@@ -4,4 +4,5 @@ export * from "./image";
 export * from "./models/user";
 export * from "./models/test";
 export * from "./middleware";
-export * from "./models/blacklist"; 
+export * from "./models/blacklist";
+export * from "./models/branch";     
