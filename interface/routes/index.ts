@@ -17,7 +17,7 @@ type Route = {
     method: keyof Router,
     path: string,
     middleware?: AuthMiddleware[],
-    role?: string | string[],
+    role?: string[],
     handler: Middleware;
 }
 
