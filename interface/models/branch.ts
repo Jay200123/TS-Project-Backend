@@ -1,10 +1,12 @@
 import { Document } from "../schema";
+import { Image } from "../image";
 
 interface IBranch extends Document {
     branch_name: string;
-    branch_address: string;
-    branch_phone: string;
-    branch_email: string;
+    address: string;
+    phone: string;
+    email: string;
+    image: Image[];
 }
 
 export type { IBranch } 
