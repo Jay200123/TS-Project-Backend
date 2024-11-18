@@ -10,4 +10,7 @@ export const PATH = {
     BRANCHES: "/branches",
     BRANCH_ID: "/branch/:id",
     EDIT_BRANCH_ID: "/branch/edit/:id",
+    DEPARTMENTS: "/departments",
+    DEPARTMENT_ID: "/department/:id",
+    EDIT_DEPARTMENT_ID: "/department/edit/:id",
 }
