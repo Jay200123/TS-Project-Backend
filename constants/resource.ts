@@ -3,4 +3,5 @@ export const RESOURCE = {
     TESTS: "tests",
     BLACKLIST: "blacklist",
     BRANCH: "branches",
+    DEPARTMENT: "departments",
 }
