@@ -33,7 +33,10 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const updateUserById = async (req: Request, res: Response, next: NextFunction) => {
     const user = await userService.getById(req.params.id);
-    const oldImage = Array.isArray(user?.image) ? user.image.map((i) => i?.public_id) : [];
+
+    const oldImage = Array.isArray(user?.image)
+     ? user.image.map((i) => i?.public_id) 
+     : [];
 
     const image = await uploadImage(req.files as Express.Multer.File[], oldImage);
     const data = await userService.updateById(
@@ -49,10 +52,13 @@ const updateUserById = async (req: Request, res: Response, next: NextFunction) =
 
 const deleteUserById = async (req: Request, res: Response, next: NextFunction) => {
     const user = await userService.getById(req.params.id);
-    const userImage = Array.isArray(user?.image) ? user.image.map((i) => i?.public_id) : [];
-    await cloudinary.api.delete_resources(userImage)
+
+    const userImage = Array.isArray(user?.image) 
+    ? user.image.map((i) => i?.public_id) 
+    : [];
 
     const data = await userService.deleteById(req.params.id);
+    await cloudinary.api.delete_resources(userImage)
 
     return next(SuccessHandler(res, 'User deleted successfully', data))
 }
