@@ -12,6 +12,7 @@ interface IUser extends Document {
     email: string,
     password: string,
     role: Roles,
+    isAuthorized: boolean,
     image: Image[]
 }
 
