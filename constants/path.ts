@@ -13,4 +13,7 @@ export const PATH = {
     DEPARTMENTS: "/departments",
     DEPARTMENT_ID: "/department/:id",
     EDIT_DEPARTMENT_ID: "/department/edit/:id",
+    DEVICES: "/devices",
+    DEVICE_ID: "/device/:id",
+    EDIT_DEVICE_ID: "/device/edit/:id",
 }
