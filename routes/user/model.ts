@@ -1,4 +1,4 @@
-import { Schema, model } from "../../interface";
+import { Schema, model, mongoose } from "../../interface";
 import { RESOURCE } from "../../constants";
 import { IUser } from "../../interface";
 
@@ -36,9 +36,21 @@ const userSchema: Schema<IUser> = new Schema({
         default: "customer",
         enum: ["customer", "admin"],
     },
+    position: {
+        type: String,
+        required: true,
+    },
     isAuthorized: {
         type: Boolean,
         default: false
+    },
+    branch: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "branches"
+    },
+    department: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "departments"
     },
     image: [
         {
