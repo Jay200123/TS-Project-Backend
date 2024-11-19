@@ -9,8 +9,8 @@ const branchRoutes: Route[] = [
     {
         method: METHOD.GET as keyof Router,
         path: PATH.BRANCHES,
-        middleware: [verifyToken],
-        role: [ROLE.ADMIN],
+        middleware: [],
+        role: [],
         handler: branchController.getAllBranch
     },
     {
