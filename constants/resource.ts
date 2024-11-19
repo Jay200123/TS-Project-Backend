@@ -5,4 +5,5 @@ export const RESOURCE = {
     BRANCH: "branches",
     DEPARTMENT: "departments",
     DEVICE: "devices",
+    POSITION: "positions",
 }
