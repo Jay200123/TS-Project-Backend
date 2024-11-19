@@ -34,7 +34,11 @@ const verifyToken = async (req: AuthenticatedRequest, res: Response, next: NextF
 
 const userRole = (...roles: string[]) => {
     return async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
-        if (!roles?.includes(req?.user?.role)) {
+        if (roles.length === 0) {
+            return next();
+        }
+
+        if (!roles.includes(req?.user?.role)) {
             return next(
                 new ErrorHandler(
                     `You are not authorized to access this resource`,
@@ -42,9 +46,10 @@ const userRole = (...roles: string[]) => {
                 )
             );
         }
+
         next();
     };
-}
+};
 
 export {
     verifyToken,
