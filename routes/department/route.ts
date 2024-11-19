@@ -9,8 +9,8 @@ const departmentRoutes: Route[] = [
     {
         method: METHOD.GET as keyof Router,
         path: PATH.DEPARTMENTS,
-        middleware: [verifyToken],
-        role: [ROLE.ADMIN],
+        middleware: [],
+        role: [],
         handler: departmentController.getAllDeparments
     },
     {
