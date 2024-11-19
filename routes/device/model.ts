@@ -2,6 +2,16 @@ import { IDevice, Schema, model } from "../../interface";
 import { RESOURCE } from "../../constants";
 
 const DeviceSchema: Schema<IDevice> = new Schema({
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "users",
+        required: true
+    },
+    department: {
+        type: Schema.Types.ObjectId,
+        ref: "departments",
+        required: true
+    },
     device_name: {
         type: String,
         required: true
