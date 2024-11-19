@@ -1,3 +1,4 @@
+import mongoose from "mongoose"
 import { Image } from "../image"
 import { Document } from "../schema"
 
@@ -12,6 +13,9 @@ interface IUser extends Document {
     email: string,
     password: string,
     role: Roles,
+    position: string,
+    department: mongoose.Schema.Types.ObjectId,
+    branch: mongoose.Schema.Types.ObjectId,
     isAuthorized: boolean,
     image: Image[]
 }
