@@ -24,7 +24,7 @@ const ticketRoutes: Route[] = [
         method: METHOD.POST as keyof Router,
         path: PATH.TICKETS,
         middleware: [verifyToken],
-        role: [ROLE.ADMIN],
+        role: [ROLE.ADMIN, ROLE.CUSTOMER],
         handler: ticketController.createTicket,
     },
     {
