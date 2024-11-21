@@ -52,8 +52,11 @@ const deleteBranchById = async (req: Request, res: Response, next: NextFunction)
         ? branch.image.map((i) => i?.public_id)
         : [];
 
+        if (branchImage.length > 0) {
+            await cloudinary.api.delete_resources(branchImage);
+        }
+
     const data = await branchService.deleteById(req.params.id);
-    await cloudinary.api.delete_resources(branchImage);
     
     return SuccessHandler(res, 'Branch deleted successfully', data)
 }
