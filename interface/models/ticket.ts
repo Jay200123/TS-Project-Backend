@@ -7,7 +7,6 @@ type LEVEL = "urgent" | "priority" | "non-urgent";
 
 interface ITicket {
     device: mongoose.Schema.Types.ObjectId;
-    user: mongoose.Schema.Types.ObjectId;
     description: string,
     date_submitted: Date,
     date_resolved: Date,
