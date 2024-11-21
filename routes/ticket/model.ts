@@ -16,7 +16,8 @@ const ticketSchema: Schema<ITicket> = new Schema({
     },
     date_submitted: {
         type: Date,
-        required: true
+        required: true,
+        default: Date.now
     },
     date_resolved: {
         type: Date
