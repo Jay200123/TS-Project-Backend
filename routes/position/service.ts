@@ -2,11 +2,17 @@ import Position from "./model";
 import { IPosition } from "../../interface";
 
 const getAll = async () => {
-    return await Position.find();
+    return await Position.find()
+        .populate('department', 'department_name')
+        .lean()
+        .exec();
 }
 
 const getById = async (id: string) => {
-    return await Position.findById(id);
+    return await Position.findById(id)
+        .populate('department', 'department_name')
+        .lean()
+        .exec();
 }
 
 const Add = async (data: IPosition) => {
