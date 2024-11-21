@@ -13,9 +13,9 @@ interface IUser extends Document {
     email: string,
     password: string,
     role: Roles,
-    position: string,
-    department: mongoose.Schema.Types.ObjectId,
     branch: mongoose.Schema.Types.ObjectId,
+    department: mongoose.Schema.Types.ObjectId,
+    position: mongoose.Schema.Types.ObjectId,
     isAuthorized: boolean,
     image: Image[]
 }
