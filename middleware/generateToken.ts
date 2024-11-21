@@ -2,7 +2,7 @@ import { jwt, SignOptions, TokenPayload } from "../interface";
 
 export const generateToken = (
     payload: TokenPayload = {} as TokenPayload,
-    expiresIn: string = '1h'
+    expiresIn: string = '1d'
 ): string => {
     const options: SignOptions = { expiresIn };
 
