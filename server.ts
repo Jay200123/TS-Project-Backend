@@ -1,6 +1,15 @@
 import { express, mongoose } from "./interface";
 import { globalEnvironment, connectDB } from "./config";
-import { test, user, auth, branch, department, position, device } from "./routes";
+import {
+    test,
+    user,
+    auth,
+    branch,
+    department,
+    position,
+    device,
+    ticket
+} from "./routes";
 import { upload } from "./utils";
 import { errorJson, errorHandler } from "./middleware";
 import path from "path";
@@ -30,7 +39,8 @@ app.use("/api/v1",
     branch,
     department,
     position,
-    device
+    device,
+    ticket
 );
 
 app.all("*", (req, res) => {
