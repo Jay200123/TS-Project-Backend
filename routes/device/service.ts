@@ -3,11 +3,33 @@ import { IDevice } from "../../interface";
 
 
 const getAll = async () => {
-    return await Device.find();
+    return await Device.find()
+        .populate('owner', "fname lname")
+        .populate({
+            path: 'department',
+            select: 'department_name',
+            populate: {
+                path: 'branch',
+                select: 'branch_name'
+            }
+        })
+        .lean()
+        .exec();
 };
 
 const getById = async (id: string) => {
-    return await Device.findById(id);
+    return await Device.findById(id)
+        .populate('owner', "fname lname")
+        .populate({
+            path: 'department',
+            select: 'department_name',
+            populate: {
+                path: 'branch',
+                select: 'branch_name'
+            }
+        })
+        .lean()
+        .exec();
 }
 
 const Add = async (data: IDevice) => {
