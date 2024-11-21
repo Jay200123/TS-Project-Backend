@@ -1,5 +1,5 @@
 import deviceService from "./service";
-import { ErrorHandler, SuccessHandler, upload } from "../../utils";
+import { ErrorHandler, SuccessHandler } from "../../utils";
 import { uploadImage } from "../../utils";
 import { cloudinary } from "../../config";
 import { Request, Response, NextFunction } from "../../interface";
@@ -51,15 +51,15 @@ const deleteDeviceById = async (req: Request, res: Response, next: NextFunction)
         ? device.image.map((i) => i?.public_id)
         : [];
 
-    if (deviceImage) {
-        await cloudinary.api.delete_resources(deviceImage);
-    }   
+        if (deviceImage.length > 0) {
+            await cloudinary.api.delete_resources(deviceImage);
+        }
 
-//     const data = await deviceService.deleteById(req.params.id);
+    const data = await deviceService.deleteById(req.params.id);
 
-//     return !data
-//         ? next(new ErrorHandler("No Device record found"))
-//         : SuccessHandler(res, "Device deleted successfully", data);
+    return !data
+        ? next(new ErrorHandler("No Device record found"))
+        : SuccessHandler(res, "Device deleted successfully", data);
 }
 
 export {
