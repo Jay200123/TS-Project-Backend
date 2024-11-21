@@ -27,10 +27,10 @@ const createTicket = async (req: Request, res: Response, next: NextFunction) => 
 }
 
 const updateTicketById = async (req: Request, res: Response, next: NextFunction) => {
-    const device = await ticketService.getById(req.params.id);
+    const ticket = await ticketService.getById(req.params.id);
 
-    const oldImage = Array.isArray(device?.image)
-        ? device.image.map((i) => i?.public_id)
+    const oldImage = Array.isArray(ticket?.image)
+        ? ticket.image.map((i) => i?.public_id)
         : [];
 
     const image = await uploadImage(req.files as Express.Multer.File[], oldImage);
@@ -44,14 +44,14 @@ const updateTicketById = async (req: Request, res: Response, next: NextFunction)
 }
 
 const deleteTicketById = async (req: Request, res: Response, next: NextFunction) => {
-    const device = await ticketService.getById(req.params.id);
+    const ticket = await ticketService.getById(req.params.id);
 
-    const deviceImage = Array.isArray(device?.image)
-        ? device.image.map((i) => i?.public_id)
+    const ticketImage = Array.isArray(ticket?.image)
+        ? ticket.image.map((i) => i?.public_id)
         : [];
 
-    if (deviceImage.length > 0) {
-        await cloudinary.api.delete_resources(deviceImage);
+    if (ticketImage.length > 0) {
+        await cloudinary.api.delete_resources(ticketImage);
     }
 
     const data = await ticketService.deleteById(req.params.id);
