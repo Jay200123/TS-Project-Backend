@@ -57,8 +57,11 @@ const deleteUserById = async (req: Request, res: Response, next: NextFunction) =
     ? user.image.map((i) => i?.public_id) 
     : [];
 
+    if (userImage.length > 0) {
+        await cloudinary.api.delete_resources(userImage);
+    }
+
     const data = await userService.deleteById(req.params.id);
-    await cloudinary.api.delete_resources(userImage)
 
     return next(SuccessHandler(res, 'User deleted successfully', data))
 }
