@@ -15,6 +15,8 @@ type Type =
     | "Access Point"
     | "Cable"
 
+type STATUS = "Available" | "Use" | "Repair" | "Replacement"| "Disposal";
+
 interface IDevice extends Document {
     owner: mongoose.Types.ObjectId,
     department: mongoose.Types.ObjectId,
@@ -24,6 +26,7 @@ interface IDevice extends Document {
     date_purchased: Date,
     sales_invoice: Number,
     serial_number: String,
+    status: STATUS, 
     image: Image[]
 };
 
