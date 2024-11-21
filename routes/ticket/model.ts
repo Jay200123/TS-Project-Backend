@@ -6,10 +6,6 @@ const ticketSchema: Schema<ITicket> = new Schema({
         type: Schema.Types.ObjectId,
         ref: RESOURCE.DEVICE
     },
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: RESOURCE.USERS
-    },
     description: {
         type: String,
         required: true
