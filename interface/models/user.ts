@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 import { Image } from "../image"
 import { Document } from "../schema"
 
-type Roles = "customer" | "admin"
+type Roles = "customer" | "admin" | "employee";
 
 interface IUser extends Document {
     fname: string,
