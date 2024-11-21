@@ -51,13 +51,15 @@ const deleteDeviceById = async (req: Request, res: Response, next: NextFunction)
         ? device.image.map((i) => i?.public_id)
         : [];
 
+    if (deviceImage) {
+        await cloudinary.api.delete_resources(deviceImage);
+    }   
 
-    const data = await deviceService.deleteById(req.params.id);
-    await cloudinary.api.delete_resources(deviceImage)
+//     const data = await deviceService.deleteById(req.params.id);
 
-    return !data
-        ? next(new ErrorHandler("No Device record found"))
-        : SuccessHandler(res, "Device deleted successfully", data);
+//     return !data
+//         ? next(new ErrorHandler("No Device record found"))
+//         : SuccessHandler(res, "Device deleted successfully", data);
 }
 
 export {
