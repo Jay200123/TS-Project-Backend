@@ -2,7 +2,12 @@ import { IUser } from "../../interface";
 import User from "./model";
 
 const getAll = async () => {
-    return await User.find();
+    return await User.find()
+        .populate("branch", "branch_name")
+        .populate("department", "department_name")
+        .populate("position", "position_name")
+        .lean()
+        .exec();
 };
 
 const getById = async (id: string) => {
