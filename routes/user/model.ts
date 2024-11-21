@@ -36,10 +36,6 @@ const userSchema: Schema<IUser> = new Schema({
         default: "customer",
         enum: ["customer", "admin"],
     },
-    position: {
-        type: String,
-        required: true,
-    },
     isAuthorized: {
         type: Boolean,
         default: false
@@ -51,6 +47,10 @@ const userSchema: Schema<IUser> = new Schema({
     department: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "departments"
+    },
+    position: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "positions"
     },
     image: [
         {
