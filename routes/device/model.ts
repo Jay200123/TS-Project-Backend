@@ -36,6 +36,12 @@ const DeviceSchema: Schema<IDevice> = new Schema({
         type: String,
         required: true
     },
+    status: {
+        type: String,
+        enum: ["Available", "Use", "Repair", "Replacement", "Disposal"],
+       default: "Available"
+    },
+
     image: [
         {
             public_id: String,
