@@ -1,14 +1,14 @@
-import { IDevice, Schema, model } from "../../interface";
+import { IDevice, Schema, model, mongoose } from "../../interface";
 import { RESOURCE } from "../../constants";
 
 const DeviceSchema: Schema<IDevice> = new Schema({
     owner: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "users",
         required: true
     },
     department: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "departments",
         required: true
     },
