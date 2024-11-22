@@ -22,4 +22,7 @@ export const PATH = {
     TICKETS: "/tickets",
     TICKET_ID: "/ticket/:id",
     EDIT_TICKET_ID: "/ticket/edit/:id",
+    DEFECTIVES: "/defectives",
+    DEFECTIVE_ID: "/defective/:id",
+    EDIT_DEFECTIVE_ID: "/defective/edit/:id",
 }
