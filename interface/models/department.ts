@@ -1,7 +1,8 @@
-import { mongoose } from "../schema";
+import { Types } from "../schema";
+import { IBranch } from "./branch";
 
 interface IDepartment {
-    branch: mongoose.Schema.Types.ObjectId; 
+    branch: Types.ObjectId | IBranch; 
     department_name: string;
     description: string;
 };
