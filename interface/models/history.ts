@@ -1,8 +1,8 @@
 import { Schema } from "../schema"
 
 interface IHistory {
-    device: Schema.Types.ObjectId,
     ticket: Schema.Types.ObjectId,
+    device_status: string
 }
 
 export { IHistory }
