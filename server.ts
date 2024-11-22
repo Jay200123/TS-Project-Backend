@@ -8,7 +8,8 @@ import {
     department,
     position,
     device,
-    ticket
+    ticket,
+    defective
 } from "./routes";
 import { upload } from "./utils";
 import { errorJson, errorHandler } from "./middleware";
@@ -40,7 +41,8 @@ app.use("/api/v1",
     department,
     position,
     device,
-    ticket
+    ticket,
+    defective
 );
 
 app.all("*", (req, res) => {
