@@ -15,7 +15,7 @@ type Type =
     | "Access Point"
     | "Cable"
 
-type STATUS = "Available" | "Use" | "Repair" | "Replacement"| "Disposal";
+type STATUS = "Available" | "Use" | "Repair" | "Replacement"| "Disposal" | "Return";
 
 interface IDevice extends Document {
     owner: mongoose.Types.ObjectId,
