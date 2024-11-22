@@ -6,5 +6,6 @@ export { default as department } from './department/route';
 export { default as device } from './device/route';
 export { default as position } from './position/route';
 export { default as ticket } from './ticket/route';
-export { default as defective } from './defective/route';
+export { default as history } from './history/route';
+
 
