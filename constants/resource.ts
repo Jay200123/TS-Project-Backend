@@ -6,6 +6,7 @@ export const RESOURCE = {
     DEPARTMENT: "departments",
     DEVICE: "devices",
     POSITION: "positions",
-    TICKET:"tickets",
-    DEFECTIVE:"defectives", 
+    TICKET: "tickets",
+    DEFECTIVE: "defectives",
+    HISTORY: "histories"
 }
