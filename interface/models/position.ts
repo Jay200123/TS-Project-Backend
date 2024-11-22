@@ -1,7 +1,8 @@
-import { mongoose } from "../schema";
+import { mongoose, Types } from "../schema";
+import { IDepartment } from "./department";
 
 interface IPosition {
-    department: mongoose.Types.ObjectId;
+    department: Types.ObjectId | IDepartment;
     position_name: string;
     description: string;
 }
