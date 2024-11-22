@@ -36,7 +36,7 @@ const Add = async (data: IDevice) => {
     return await Device.create(data);
 }
 
-const updateById = async (id: string, data: IDevice) => {
+const updateById = async (id: string, data: Partial<IDevice>) => {
     return await Device.findByIdAndUpdate(id, data, { new: true, runValidators: true });
 }
 
