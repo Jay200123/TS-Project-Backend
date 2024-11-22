@@ -1,23 +1,25 @@
-import mongoose from "mongoose"
-import { Image } from "../image"
-import { Document } from "../schema"
+import { Image } from "../image";
+import { Document, Types } from "../schema";
+import { IBranch } from "./branch";
+import { IDepartment } from "./department";
+import { IPosition } from "./position";
 
 type Roles = "customer" | "admin" | "employee";
 
 interface IUser extends Document {
-    fname: string,
-    lname: string,
-    phone: string,
-    address: string,
-    city: string,
-    email: string,
-    password: string,
-    role: Roles,
-    branch: mongoose.Schema.Types.ObjectId,
-    department: mongoose.Schema.Types.ObjectId,
-    position: mongoose.Schema.Types.ObjectId,
-    isAuthorized: boolean,
-    image: Image[]
+  fname: string;
+  lname: string;
+  phone: string;
+  address: string;
+  city: string;
+  email: string;
+  password: string;
+  role: Roles;
+  branch: Types.ObjectId | IBranch;
+  department: Types.ObjectId | IDepartment;
+  position: Types.ObjectId | IPosition;
+  isAuthorized: boolean;
+  image: Image[];
 }
 
-export type { IUser }
+export type { IUser };
