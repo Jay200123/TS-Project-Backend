@@ -1,9 +1,9 @@
-import { Schema, model, ITicket } from "../../interface";
+import { Schema, model, mongoose, ITicket } from "../../interface";
 import { RESOURCE } from "../../constants";
 
 const ticketSchema: Schema<ITicket> = new Schema({
     device: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: RESOURCE.DEVICE
     },
     description: {
@@ -34,7 +34,7 @@ const ticketSchema: Schema<ITicket> = new Schema({
         default: "non-urgent"
     },
     assignee: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: RESOURCE.USERS
     },
     findings: {
