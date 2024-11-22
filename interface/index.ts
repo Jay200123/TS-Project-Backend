@@ -10,4 +10,5 @@ export * from "./models/department";
 export * from "./models/device";
 export * from "./models/position";
 export * from "./models/ticket"; 
+export * from "./models/history";   
 export * from "./models/defective";
