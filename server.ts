@@ -1,15 +1,15 @@
 import { express, mongoose } from "./interface";
 import { globalEnvironment, connectDB } from "./config";
 import {
-    test,
-    user,
-    auth,
-    branch,
-    department,
-    position,
-    device,
-    ticket,
-    defective
+  test,
+  user,
+  auth,
+  branch,
+  department,
+  position,
+  device,
+  ticket,
+  history,
 } from "./routes";
 import { upload } from "./utils";
 import { errorJson, errorHandler } from "./middleware";
@@ -22,44 +22,44 @@ globalEnvironment();
 connectDB();
 const app = express();
 
-app.use(upload.array('image'));
+app.use(upload.array("image"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
-})
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
-app.use("/api/v1",
-    auth,
-    test,
-    user,
-    branch,
-    department,
-    position,
-    device,
-    ticket,
-    defective
+app.use(
+  "/api/v1",
+  auth,
+  test,
+  user,
+  branch,
+  department,
+  position,
+  device,
+  ticket,
+  history
 );
 
 app.all("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "notFound.html"));
-})
+  res.sendFile(path.join(__dirname, "public", "notFound.html"));
+});
 
 app.use(errorJson);
 app.use(errorHandler);
 
-mongoose.connection.once('open', () => {
-    app.listen(process.env.PORT);
-    console.log(`Server running on ${process.env.PORT}`);
-    console.log(`Mongoose Database connected`)
+mongoose.connection.once("open", () => {
+  app.listen(process.env.PORT);
+  console.log(`Server running on ${process.env.PORT}`);
+  console.log(`Mongoose Database connected`);
 });
 
-mongoose.connection.on('error', (err) => {
-    console.log(err);
-    process.exit(1);
-})
-
+mongoose.connection.on("error", (err) => {
+  console.log(err);
+  process.exit(1);
+});
