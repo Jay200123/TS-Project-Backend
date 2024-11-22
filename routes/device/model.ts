@@ -38,7 +38,7 @@ const DeviceSchema: Schema<IDevice> = new Schema({
     },
     status: {
         type: String,
-        enum: ["Available", "Use", "Repair", "Replacement", "Disposal"],
+        enum: ["Available", "Use", "Defective", "Repair", "Replacement", "Disposal", "Return"],
        default: "Available"
     },
 
