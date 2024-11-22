@@ -25,4 +25,7 @@ export const PATH = {
     DEFECTIVES: "/defectives",
     DEFECTIVE_ID: "/defective/:id",
     EDIT_DEFECTIVE_ID: "/defective/edit/:id",
+    HISTORIES: "/histories",
+    HISTORY_ID: "/history/:id",
+    EDIT_HISTORY_ID: "/history/edit/:id",
 }
