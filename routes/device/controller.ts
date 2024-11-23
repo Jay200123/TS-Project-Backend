@@ -36,10 +36,12 @@ const updateDeviceById = async (req: Request, res: Response, next: NextFunction)
 
     const image = await uploadImage(req.files as Express.Multer.File[], oldImage);
 
-    const data = await deviceService.updateById(req.params.id, {
-        ...req.body,
-        image: image
-    });
+    const data = await deviceService.updateById(req.params.id,
+        {
+            ...req.body,
+            image: image
+        }
+    );
 
     return SuccessHandler(res, "Device updated successfully", data);
 }
@@ -51,9 +53,9 @@ const deleteDeviceById = async (req: Request, res: Response, next: NextFunction)
         ? device.image.map((i) => i?.public_id)
         : [];
 
-        if (deviceImage.length > 0) {
-            await cloudinary.api.delete_resources(deviceImage);
-        }
+    if (deviceImage.length > 0) {
+        await cloudinary.api.delete_resources(deviceImage);
+    }
 
     const data = await deviceService.deleteById(req.params.id);
 
