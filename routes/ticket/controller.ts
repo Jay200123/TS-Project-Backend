@@ -54,17 +54,19 @@ const updateTicketById = async (
 
   const device = await deviceService.getById(ticket.device._id.toString());
 
+  const isClosed = ticket.status === "closed" ? "Used" : device?.status;
+
   await deviceService.updateById(device?._id.toString(), {
-    status: req.body.device_status || device?.status
+    status: req.body.device_status || isClosed,
   });
 
   if (req.body.status === "resolved") {
-     await historyService.Add(
+    await historyService.Add(
       {
-      ticket: ticket?._id,
-      device_status: req.body.device_status,
-    }
-  );
+        ticket: ticket?._id,
+        device_status: req.body.device_status,
+      }
+    );
   }
 
   const image = await uploadImage(req.files as Express.Multer.File[], oldImage);
