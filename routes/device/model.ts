@@ -21,7 +21,8 @@ const DeviceSchema: Schema<IDevice> = new Schema({
             "Switch",
             "Hub",
             "Access Point",
-            "Cable"]
+            "Cable"
+        ]
     },
     description: {
         type: String,
@@ -33,10 +34,6 @@ const DeviceSchema: Schema<IDevice> = new Schema({
     },
     date_purchased: {
         type: Date,
-        required: true
-    },
-    sales_invoice: {
-        type: Number,
         required: true
     },
     serial_number: {
