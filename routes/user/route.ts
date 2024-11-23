@@ -10,21 +10,21 @@ const userRouter: Route[] = [
         method: METHOD.GET as keyof Router,
         path: PATH.USERS,
         middleware: [verifyToken],
-        role: [ROLE.ADMIN, ROLE.CUSTOMER],
+        role: [ROLE.ADMIN, ROLE.EMPLOYEE],
         handler: userController.getAllUser
     },
     {
         method: METHOD.GET as keyof Router,
         path: PATH.USER_ID,
         middleware: [verifyToken],
-        role: [ROLE.ADMIN, ROLE.CUSTOMER],
+        role: [ROLE.ADMIN, ROLE.EMPLOYEE],
         handler: userController.getUserById
     },
     {
         method: METHOD.PATCH as keyof Router,
         path: PATH.EDIT_USER_ID,
         middleware: [verifyToken],
-        role: [ROLE.ADMIN, ROLE.CUSTOMER],
+        role: [ROLE.ADMIN, ROLE.EMPLOYEE],
         handler: userController.updateUserById
     },
     {
