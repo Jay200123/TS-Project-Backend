@@ -1,7 +1,6 @@
 import { Document, mongoose, Types } from "../schema";
 import { Image } from "../image";
 import { IUser } from "./user";
-import { IDepartment } from "./department";
 
 type Type =
   | "Printer"
@@ -27,7 +26,6 @@ type STATUS =
 
 interface IDevice extends Document {
   owner: Types.ObjectId | IUser;
-  department: Types.ObjectId | IDepartment;
   type: Type;
   description: String;
   date_requested: Date;
