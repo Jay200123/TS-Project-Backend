@@ -4,7 +4,7 @@ import { IBranch } from "./branch";
 import { IDepartment } from "./department";
 import { IPosition } from "./position";
 
-type Roles = "customer" | "admin" | "employee";
+type Roles = "Admin" | "Technician" | "Employee";
 
 interface IUser extends Document {
   fname: string;
