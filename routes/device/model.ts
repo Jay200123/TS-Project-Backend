@@ -7,14 +7,21 @@ const DeviceSchema: Schema<IDevice> = new Schema({
         ref: "users",
         required: true
     },
-    department: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "departments",
-        required: true
-    },
     type: {
         type: String,
-        required: true
+        enum: [
+            "Printer",
+            "System Unit",
+            "Laptop",
+            "Monitor",
+            "Mobile",
+            "AVR",
+            "UPS",
+            "Router",
+            "Switch",
+            "Hub",
+            "Access Point",
+            "Cable"]
     },
     description: {
         type: String,
@@ -38,8 +45,16 @@ const DeviceSchema: Schema<IDevice> = new Schema({
     },
     status: {
         type: String,
-        enum: ["Available", "Use", "Defective", "Repair", "Replacement", "Disposal", "Return"],
-       default: "Available"
+        enum: [
+            "Available",
+            "Used",
+            "Defective",
+            "Repair",
+            "Replacement",
+            "Disposal",
+            "Return"
+        ],
+        default: "Available"
     },
 
     image: [
