@@ -4,7 +4,6 @@ import { ErrorHandler, SuccessHandler, uploadImage } from "../../utils";
 import { cloudinary } from "../../config";
 import historyService from "../history/service";
 import deviceService from "../device/service";
-import mongoose, { ObjectId } from "mongoose";
 
 const getAllTickets = async (
   req: Request,
@@ -53,17 +52,19 @@ const updateTicketById = async (
     ? ticket.image.map((i) => i?.public_id)
     : [];
 
-  const deviceId = ticket.device._id.toString();
+  const device = await deviceService.getById(ticket.device._id.toString());
 
-  await deviceService.updateById(deviceId, {
-    status: req.body.device_status,
+  await deviceService.updateById(device?._id.toString(), {
+    status: req.body.device_status || device?.status
   });
 
   if (req.body.status === "resolved") {
-    const test = await historyService.Add({
+     await historyService.Add(
+      {
       ticket: ticket?._id,
       device_status: req.body.device_status,
-    });
+    }
+  );
   }
 
   const image = await uploadImage(req.files as Express.Multer.File[], oldImage);
