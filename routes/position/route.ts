@@ -23,8 +23,8 @@ const departmentRoutes: Route[] = [
     {
         method: METHOD.POST as keyof Router,
         path: PATH.POSITIONS,
-        middleware: [verifyToken],
-        role: [ROLE.ADMIN],
+        middleware: [],
+        role: [],
         handler: positionController.createPosition,
     },
     {
