@@ -16,15 +16,15 @@ const branchRoutes: Route[] = [
     {
         method: METHOD.GET as keyof Router,
         path: PATH.BRANCH_ID,
-        middleware: [verifyToken],
-        role: [ROLE.ADMIN],
+        middleware: [],
+        role: [],
         handler: branchController.getBranchById,
     },
     {
         method: METHOD.POST as keyof Router,
         path: PATH.BRANCHES,
-        middleware: [verifyToken],
-        role: [ROLE.ADMIN],
+        middleware: [],
+        role: [],
         handler: branchController.createBranch
     },
     {
