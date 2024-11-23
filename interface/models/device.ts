@@ -8,6 +8,8 @@ type Type =
   | "Laptop"
   | "Monitor"
   | "Mobile"
+  | "Keyboard"
+  | "Mouse"
   | "AVR"
   | "UPS"
   | "Router"
@@ -18,7 +20,7 @@ type Type =
 
 type STATUS =
   | "Available"
-  | "Use"
+  | "Used"
   | "Repair"
   | "Replacement"
   | "Disposal"
@@ -30,7 +32,6 @@ interface IDevice extends Document {
   description: String;
   date_requested: Date;
   date_purchased: Date;
-  sales_invoice: Number;
   serial_number: String;
   status: STATUS;
   image: Image[];
