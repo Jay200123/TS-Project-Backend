@@ -30,11 +30,16 @@ const deleteById = async (id: string) => {
     return await User.findByIdAndDelete(id);
 }
 
+const findByIdAndAuthorize = async (id: string) => {
+    return await User.findByIdAndUpdate(id, { isAuthorized: true }, { new: true });
+}
+
 export default {
     getAll,
     getById,
     getByEmail,
     Add,
     updateById,
-    deleteById
+    deleteById,
+    findByIdAndAuthorize
 }
