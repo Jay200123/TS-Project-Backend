@@ -1,4 +1,4 @@
-import { mongoose, Types } from "../schema";
+import { Types } from "../schema";
 import { IDepartment } from "./department";
 
 interface IPosition {
