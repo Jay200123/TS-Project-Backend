@@ -41,6 +41,13 @@ const userRouter: Route[] = [
     role: [ROLE.ADMIN],
     handler: userController.activateUser,
   },
+  {
+    method: METHOD.GET as keyof Router,
+    path: PATH.USER_PROFILE,
+    middleware: [verifyToken],
+    role: [ROLE.ADMIN, ROLE.EMPLOYEE],
+    handler: userController.userProfileInfo,
+  }
 ];
 
 userRouter.forEach((route) => {
