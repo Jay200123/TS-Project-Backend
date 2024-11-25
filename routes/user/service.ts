@@ -15,7 +15,12 @@ const getById = async (id: string) => {
 };
 
 const getByEmail = async (email: string) => {
-    return await User.findOne({ email });
+    return await User.findOne({ email })
+    .populate("branch", "branch_name")
+    .populate("department", "department_name")
+    .populate("position", "position_name")  
+    .lean()
+    .exec();
 }
 
 const Add = async (data: IUser) => {
@@ -34,6 +39,15 @@ const findByIdAndAuthorize = async (id: string) => {
     return await User.findByIdAndUpdate(id, { isAuthorized: true }, { new: true });
 }
 
+const findOneById = async (id: string) => { 
+    return await User.findOne({ _id: id })
+    .populate("branch", "branch_name")  
+    .populate("department", "department_name")
+    .populate("position", "position_name")
+    .lean()
+    .exec();
+}
+
 export default {
     getAll,
     getById,
@@ -41,5 +55,6 @@ export default {
     Add,
     updateById,
     deleteById,
-    findByIdAndAuthorize
+    findByIdAndAuthorize,
+    findOneById
 }
