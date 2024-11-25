@@ -43,10 +43,12 @@ const updateUserById = async (
     : [];
 
   const image = await uploadImage(req.files as Express.Multer.File[], oldImage);
-  const data = await userService.updateById(req.params.id, {
-    ...req.body,
-    imag: image,
-  });
+  const data = await userService.updateById(req.params.id,
+    {
+      ...req.body,
+      image: image,
+    }
+  );
 
   return SuccessHandler(res, "User updated successfully", data);
 };
@@ -82,6 +84,17 @@ const activateUser = async (
     : SuccessHandler(res, "User Record found", data);
 };
 
+const userProfileInfo = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+)=>{
+  const data = await userService.findOneById(req.params.id);
+  return !data
+    ? next(new ErrorHandler("No User record found"))
+    : SuccessHandler(res, "User Record found", data);
+}
+
 export {
   getAllUser,
   getUserById,
@@ -89,4 +102,5 @@ export {
   updateUserById,
   deleteUserById,
   activateUser,
+  userProfileInfo
 };
