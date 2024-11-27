@@ -95,6 +95,14 @@ const userProfileInfo = async (
     : SuccessHandler(res, "User Record found", data);
 }
 
+const getAllAdmins = async (
+  req: Request, 
+  res: Response,
+  next: NextFunction
+  )=>{
+    const data = await userService.findAdminsByEmail(); 
+}
+
 export {
   getAllUser,
   getUserById,
@@ -102,5 +110,6 @@ export {
   updateUserById,
   deleteUserById,
   activateUser,
-  userProfileInfo
+  userProfileInfo,
+  getAllAdmins
 };
