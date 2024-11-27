@@ -8,5 +8,6 @@ export const RESOURCE = {
     POSITION: "positions",
     TICKET: "tickets",
     DEFECTIVE: "defectives",
-    HISTORY: "histories"
+    HISTORY: "histories",
+    GMAIL: "gmail",	
 }
