@@ -38,6 +38,9 @@ const deleteById = async (id: string) => {
 const findByIdAndAuthorize = async (id: string) => {
     return await User.findByIdAndUpdate(id, { isAuthorized: true }, { new: true });
 }
+const findAdminsByEmail = async () => {
+    return await User.find({ role: "Admin" }).lean().exec();    
+}
 
 const findOneById = async (id: string) => { 
     return await User.findOne({ _id: id })
@@ -56,5 +59,6 @@ export default {
     updateById,
     deleteById,
     findByIdAndAuthorize,
-    findOneById
+    findOneById,
+    findAdminsByEmail
 }
