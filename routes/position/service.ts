@@ -3,16 +3,30 @@ import { IPosition } from "../../interface";
 
 const getAll = async () => {
     return await Position.find()
-        .populate('department', 'department_name')
+        .populate({
+            path: 'department',
+            select: 'department_name branch',
+            populate: {
+                path: 'branch',
+                select: 'branch_name'
+            }
+        })
         .lean()
         .exec();
 }
 
 const getById = async (id: string) => {
     return await Position.findById(id)
-        .populate('department', 'department_name')
-        .lean()
-        .exec();
+    .populate({
+        path: 'department',
+        select: 'department_name branch',
+        populate: {
+            path: 'branch',
+            select: 'branch_name'
+        }
+    })
+    .lean()
+    .exec();
 }
 
 const Add = async (data: IPosition) => {
