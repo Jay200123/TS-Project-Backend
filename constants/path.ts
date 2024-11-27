@@ -31,4 +31,5 @@ export const PATH = {
     HISTORIES: "/histories",
     HISTORY_ID: "/history/:id",
     EDIT_HISTORY_ID: "/history/edit/:id",
+    TEST_EMAIL: "/test/email",  
 }
