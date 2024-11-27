@@ -101,6 +101,10 @@ const getAllAdmins = async (
   next: NextFunction
   )=>{
     const data = await userService.findAdminsByEmail(); 
+
+  for(const test of data){
+    console.log(test.email);
+  }
 }
 
 export {
