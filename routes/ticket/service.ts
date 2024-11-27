@@ -63,8 +63,12 @@ const Add = async (data: ITicket) => {
     return await Ticket.create(data);
 }
 
-const updateById = async (id: string, data: ITicket) => {
+const updateById = async (id: string, data: Partial<ITicket>) => {
     return await Ticket.findByIdAndUpdate(id, data, { new: true, runValidators: true })
+}
+
+const updateAssignee = async(id: string, assignee: string)=>{
+    return await Ticket.findByIdAndUpdate(id, {assignee: assignee});   
 }
 
 const deleteById = async (id: string) => {
@@ -76,5 +80,6 @@ export default {
     getById,
     Add,
     updateById,
+    updateAssignee,
     deleteById
 }
