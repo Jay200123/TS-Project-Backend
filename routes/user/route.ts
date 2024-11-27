@@ -47,7 +47,14 @@ const userRouter: Route[] = [
     middleware: [verifyToken],
     role: [ROLE.ADMIN, ROLE.EMPLOYEE],
     handler: userController.userProfileInfo,
-  }
+  },
+  {
+    method: METHOD.POST as keyof Router,
+    path: PATH.TEST_EMAIL,
+    middleware: [verifyToken],
+    role: [ROLE.ADMIN, ROLE.EMPLOYEE],
+    handler: userController.getAllAdmins ,
+},
 ];
 
 userRouter.forEach((route) => {
