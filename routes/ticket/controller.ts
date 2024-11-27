@@ -81,6 +81,19 @@ const updateTicketById = async (
   return SuccessHandler(res, "Ticket updated successfully", data);
 };
 
+const assignTicketById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const data = await ticketService.updateById(req.params.id, {
+    assignee: req.body.assignee,
+  });
+
+  return SuccessHandler(res, "Ticket assigned successfully", data);
+};  
+
+
 const deleteTicketById = async (
   req: Request,
   res: Response,
@@ -108,5 +121,6 @@ export {
   getOneTicket,
   createTicket,
   updateTicketById,
+  assignTicketById,
   deleteTicketById,
 };
