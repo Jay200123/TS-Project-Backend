@@ -1,7 +1,18 @@
 import userService from "./service";
-import { ErrorHandler, SuccessHandler } from "../../utils";
-import { Request, Response, NextFunction } from "../../interface";
-import { uploadImage, hashPassword } from "../../utils";
+import { 
+  ErrorHandler,
+   SuccessHandler
+} from "../../utils";
+import { 
+  Request,
+  Response,
+  NextFunction
+} from "../../interface";
+import {
+  uploadImage,
+  hashPassword,
+  sendEmail
+ } from "../../utils";
 import { STATUSCODE } from "../../constants";
 import { cloudinary } from "../../config";
 
@@ -22,11 +33,18 @@ const getUserById = async (req: Request, res: Response, next: NextFunction) => {
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   const password = await hashPassword(req.body.password);
   const image = await uploadImage(req.files as Express.Multer.File[], []);
+  await sendEmail(req.body.email, `Hi! ${req.body.fname} ${req.body.lname}, Your registration is currently under review, and you will be notified once it has been approved by an administrator.`); 
+
   const data = await userService.Add({
     ...req.body,
     image: image,
     password: password,
   });
+
+  const admins = await userService.findAdminsByEmail();
+  for(const admin of admins){
+    await sendEmail(admin.email, `A new user has registered at the IT Support Ticket System ${req.body.fname} ${req.body.lname} please approve or disapprove the user`); 
+  }; 
 
   return SuccessHandler(res, "User created successfully", data);
 };
@@ -40,7 +58,7 @@ const updateUserById = async (
 
   const oldImage = Array.isArray(user?.image)
     ? user.image.map((i) => i?.public_id)
-    : [];
+    : []; 
 
   const image = await uploadImage(req.files as Express.Multer.File[], oldImage);
   const data = await userService.updateById(req.params.id,
@@ -70,7 +88,7 @@ const deleteUserById = async (
 
   const data = await userService.deleteById(req.params.id);
 
-  return next(SuccessHandler(res, "User deleted successfully", data));
+  return SuccessHandler(res, "User deleted successfully", data);
 };
 
 const activateUser = async (
@@ -79,6 +97,8 @@ const activateUser = async (
   next: NextFunction
 ) => {
   const data = await userService.findByIdAndAuthorize(req.params.id);
+  await sendEmail(data?.email, `Hi! ${data?.fname} ${data?.lname}, Your registration has been approved by an administrator, you can now login to the IT Support Ticket System`);  
+
   return !data
     ? next(new ErrorHandler("No User record found"))
     : SuccessHandler(res, "User Record found", data);
