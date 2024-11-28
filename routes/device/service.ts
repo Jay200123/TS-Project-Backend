@@ -30,7 +30,7 @@ const getById = async (id: string) => {
     return await Device.findById(id)
         .populate({
             path: 'owner',
-            select: 'fname lname department position branch',
+            select: 'fname lname email department position branch',
             populate: [
                 {
                     path: 'branch',
