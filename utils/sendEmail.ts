@@ -31,4 +31,4 @@ const sendEmail = (email: string, message: string): Promise<SentMessageInfo> => 
   });
 };
 
-export default sendEmail;
+export { sendEmail };
