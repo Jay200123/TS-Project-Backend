@@ -1,9 +1,10 @@
 import ticketService from "./service";
 import { Request, Response, NextFunction } from "../../interface";
-import { ErrorHandler, SuccessHandler, uploadImage } from "../../utils";
+import { ErrorHandler, SuccessHandler, uploadImage, sendEmail } from "../../utils";
 import { cloudinary } from "../../config";
 import historyService from "../history/service";
 import deviceService from "../device/service";
+import userService from "../user/service";
 
 const getAllTickets = async (
   req: Request,
@@ -38,6 +39,16 @@ const createTicket = async (
     ...req.body,
     image: image,
   });
+
+  const device = await deviceService.getById(data?.device._id.toString());
+  const user = await userService.findOneById(device?.owner._id.toString());
+
+  await sendEmail(user?.email, `Ticket has been created successfully, this is your ticket ID:${data?._id}`);
+
+  const admins = await userService.findAdminsByEmail();  
+  for(const admin of admins){ 
+    await sendEmail(admin.email, `New ticket has been created by ${user?.fname} ${user?.lname} please check the ticket with Ticket ID: ${data?._id}`);  
+  }
   return SuccessHandler(res, "Ticket created successfully", data);
 };
 
