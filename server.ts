@@ -33,6 +33,12 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+app.delete("/drop/database", async(req, res, next)=>{
+  await mongoose.connection.db.dropDatabase();
+  res.status(200).json({ message: 'Database dropped successfully!' });
+})
+
+
 app.use(
   "/api/v1",
   auth,
