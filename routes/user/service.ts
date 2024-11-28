@@ -47,7 +47,6 @@ const findOneById = async (id: string) => {
     .populate("branch", "branch_name")  
     .populate("department", "department_name")
     .populate("position", "position_name")
-    .lean()
     .exec();
 }
 
