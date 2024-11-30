@@ -10,14 +10,14 @@ const ticketRoutes: Route[] = [
         method: METHOD.GET as keyof Router,
         path: PATH.TICKETS,
         middleware: [verifyToken],
-        role: [ROLE.ADMIN],
+        role: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.TECHNICIAN],
         handler: ticketController.getAllTickets,
     },
     {
         method: METHOD.GET as keyof Router,
         path: PATH.TICKET_ID,
         middleware: [verifyToken],
-        role: [ROLE.ADMIN],
+        role: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.TECHNICIAN],
         handler: ticketController.getOneTicket,
     },
     {
@@ -31,7 +31,7 @@ const ticketRoutes: Route[] = [
         method: METHOD.PATCH as keyof Router,
         path: PATH.EDIT_TICKET_ID,
         middleware: [verifyToken],
-        role: [ROLE.ADMIN],
+        role: [ROLE.ADMIN, ROLE.EMPLOYEE],
         handler: ticketController.updateTicketById,
     },
     {
