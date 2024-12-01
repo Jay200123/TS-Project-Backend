@@ -25,6 +25,7 @@ export const PATH = {
     TICKET_ID: "/ticket/:id",
     EDIT_TICKET_ID: "/ticket/edit/:id",
     ASSIGN_TICKET_ID: "/ticket/assign/:id",
+    TICKETS_BY_ASSIGNEE: "/tickets/assignee/:id",   
     DEFECTIVES: "/defectives",
     DEFECTIVE_ID: "/defective/:id",
     EDIT_DEFECTIVE_ID: "/defective/edit/:id",
