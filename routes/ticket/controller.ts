@@ -5,7 +5,6 @@ import { cloudinary } from "../../config";
 import historyService from "../history/service";
 import deviceService from "../device/service";
 import userService from "../user/service";
-import { device } from "..";
 
 const getAllTickets = async (
   req: Request,
@@ -46,9 +45,9 @@ const createTicket = async (
 
   await sendEmail(user?.email, `Ticket has been created successfully, this is your ticket ID:${data?._id}`);
 
-  const admins = await userService.findAdminsByEmail();  
-  for(const admin of admins){ 
-    await sendEmail(admin.email, `New ticket has been created by ${user?.fname} ${user?.lname} please check the ticket with Ticket ID: ${data?._id}`);  
+  const admins = await userService.findAdminsByEmail();
+  for (const admin of admins) {
+    await sendEmail(admin.email, `New ticket has been created by ${user?.fname} ${user?.lname} please check the ticket with Ticket ID: ${data?._id}`);
   }
   return SuccessHandler(res, "Ticket created successfully", data);
 };
@@ -68,8 +67,8 @@ const updateTicketById = async (
 
   const isClosed = ticket.status === "closed" ? "Used" : device?.status;
 
-    await deviceService.updateById(device?._id.toString(),
-     {
+  await deviceService.updateById(device?._id.toString(),
+    {
       status: req.body.device_status || isClosed,
     }
   );
@@ -98,31 +97,46 @@ const assignTicketById = async (
   res: Response,
   next: NextFunction
 ) => {
+
   const data = await ticketService.updateById(req.params.id, {
     assignee: req.body.assignee,
+    level: req.body.level,
+    status: req.body.status,
   });
 
-  const user = await userService.findOneById(req.body.assignee);  
-  
-if (user) {
-  await sendEmail(
-    user.email,
-    `Ticket has been assigned to you. Please check the ticket with Ticket ID: ${data?._id}.`
-  );
-}
+  const user = await userService.findOneById(req.body.assignee);
 
-const owner = await deviceService.getById(data?.device._id.toString());
+  if (user) {
+    await sendEmail(
+      user.email,
+      `Ticket has been assigned to you. Please check the ticket with Ticket ID: ${data?._id}.`
+    );
+  }
 
-if (owner) {
-  const user = await userService.findOneById(owner?.owner?._id.toString());   
-  await sendEmail(
-    user.email,
-    `Ticket has been assigned to ${user.fname} ${user.lname}. Please check the ticket with Ticket ID: ${data?._id}.`
-  );
-}
+  const device = await deviceService.getById(data?.device._id.toString());
+
+  if (device) {
+    const user = await userService.findOneById(device?.owner?._id.toString());
+    await sendEmail(
+      user.email,
+      `Ticket has been assigned to ${user.fname} ${user.lname}. Please check the ticket with Ticket ID: ${data?._id}.`
+    );
+  }
 
   return SuccessHandler(res, "Ticket assigned successfully", data);
-};  
+};
+
+const getTicketsByAssignee = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const data = await ticketService.getTicketByAssignee(req.params.id);
+
+  return !data || data.length === 0
+    ? next(new ErrorHandler("No Tickets Found"))
+    : SuccessHandler(res, "Tickets data found", data);
+}
 
 
 const deleteTicketById = async (
@@ -152,6 +166,7 @@ export {
   getOneTicket,
   createTicket,
   updateTicketById,
+  getTicketsByAssignee,
   assignTicketById,
   deleteTicketById,
 };
