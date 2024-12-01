@@ -5,7 +5,7 @@ const getAll = async () => {
     return await Ticket.find()
         .populate({
             path: "device",
-            select: "type description owner",
+            select: "type description owner image",
             populate: {
                 path: "owner",
                 select: "fname lname branch department position",
@@ -34,7 +34,7 @@ const getById = async (id: string) => {
     return await Ticket.findById(id)
         .populate({
             path: "device",
-            select: "type description owner",
+            select: "type description owner image",
             populate: {
                 path: "owner",
                 select: "fname lname branch department position",
