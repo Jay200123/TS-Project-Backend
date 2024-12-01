@@ -5,6 +5,7 @@ import { cloudinary } from "../../config";
 import historyService from "../history/service";
 import deviceService from "../device/service";
 import userService from "../user/service";
+import { device } from "..";
 
 const getAllTickets = async (
   req: Request,
@@ -100,6 +101,25 @@ const assignTicketById = async (
   const data = await ticketService.updateById(req.params.id, {
     assignee: req.body.assignee,
   });
+
+  const user = await userService.findOneById(req.body.assignee);  
+  
+if (user) {
+  await sendEmail(
+    user.email,
+    `Ticket has been assigned to you. Please check the ticket with Ticket ID: ${data?._id}.`
+  );
+}
+
+const owner = await deviceService.getById(data?.device._id.toString());
+
+if (owner) {
+  const user = await userService.findOneById(owner?.owner?._id.toString());   
+  await sendEmail(
+    user.email,
+    `Ticket has been assigned to ${user.fname} ${user.lname}. Please check the ticket with Ticket ID: ${data?._id}.`
+  );
+}
 
   return SuccessHandler(res, "Ticket assigned successfully", data);
 };  
