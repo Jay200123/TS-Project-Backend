@@ -5,8 +5,8 @@ const getAll = async () => {
     return await Ticket.find()
         .populate({
             path: "device",
-            select: "type description owner image",
-            populate: {
+            select: "type description owner status serial_number image",
+            populate: { 
                 path: "owner",
                 select: "fname lname branch department position",
                 populate: [
@@ -67,6 +67,10 @@ const updateById = async (id: string, data: Partial<ITicket>) => {
     return await Ticket.findByIdAndUpdate(id, data, { new: true, runValidators: true })
 }
 
+const getTicketByAssignee = async (assignee: string) => {   
+    return await Ticket.find({ assignee: assignee })
+}
+
 const updateAssignee = async(id: string, assignee: string)=>{
     return await Ticket.findByIdAndUpdate(id, {assignee: assignee});   
 }
@@ -80,6 +84,7 @@ export default {
     getById,
     Add,
     updateById,
+    getTicketByAssignee,
     updateAssignee,
     deleteById
 }
