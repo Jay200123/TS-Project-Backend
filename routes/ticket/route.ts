@@ -47,6 +47,13 @@ const ticketRoutes: Route[] = [
         middleware: [verifyToken],
         role: [ROLE.ADMIN],
         handler: ticketController.deleteTicketById,
+    },
+    {
+        method: METHOD.GET as keyof Router,
+        path: PATH.TICKETS_BY_ASSIGNEE, 
+        middleware: [verifyToken],
+        role: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.TECHNICIAN],
+        handler: ticketController.getTicketsByAssignee,
     }
 ];
 
