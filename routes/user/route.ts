@@ -45,7 +45,7 @@ const userRouter: Route[] = [
     method: METHOD.GET as keyof Router,
     path: PATH.USER_PROFILE,
     middleware: [verifyToken],
-    role: [ROLE.ADMIN, ROLE.EMPLOYEE],
+    role: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.TECHNICIAN],
     handler: userController.userProfileInfo,
   },
   {
