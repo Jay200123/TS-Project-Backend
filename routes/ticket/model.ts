@@ -38,7 +38,8 @@ const ticketSchema: Schema<ITicket> = new Schema({
         ref: RESOURCE.USERS
     },
     findings: {
-        type: String
+        type: String,
+        default: null
     },
     image: [
         {
