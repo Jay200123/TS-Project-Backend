@@ -34,7 +34,7 @@ const getById = async (id: string) => {
     return await Ticket.findById(id)
         .populate({
             path: "device",
-            select: "type description owner image",
+            select: "type status description owner image",
             populate: {
                 path: "owner",
                 select: "fname lname branch department position",
