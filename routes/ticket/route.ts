@@ -38,7 +38,7 @@ const ticketRoutes: Route[] = [
         method: METHOD.PATCH as keyof Router,
         path: PATH.ASSIGN_TICKET_ID,
         middleware: [verifyToken],
-        role: [ROLE.ADMIN],
+        role: [ROLE.ADMIN, ROLE.TECHNICIAN],
         handler: ticketController.assignTicketById,
     },
     {
