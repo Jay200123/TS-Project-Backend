@@ -52,6 +52,8 @@ const createTicket = async (
   return SuccessHandler(res, "Ticket created successfully", data);
 };
 
+
+
 const updateTicketById = async (
   req: Request,
   res: Response,
@@ -59,17 +61,13 @@ const updateTicketById = async (
 ) => {
   const ticket = await ticketService.getById(req.params.id);
 
-  const oldImage = Array.isArray(ticket?.image)
-    ? ticket.image.map((i) => i?.public_id)
-    : [];
+  console.log(req.body);
 
   const device = await deviceService.getById(ticket.device._id.toString());
 
-  const isClosed = ticket.status === "closed" ? "Used" : device?.status;
-
   await deviceService.updateById(device?._id.toString(),
     {
-      status: req.body.device_status || isClosed,
+      status: req.body.device_status,
     }
   );
 
@@ -82,15 +80,18 @@ const updateTicketById = async (
     );
   }
 
-  const image = await uploadImage(req.files as Express.Multer.File[], oldImage);
-
-  const data = await ticketService.updateById(req.params.id, {
-    ...req.body,
-    image: image,
-  });
+  const data = await ticketService.updateById(req.params.id,
+    {
+      status: req.body.status,
+      date_resolved: req.body.date_resolved,
+      findings: req.body.findings,    
+    }
+  );
 
   return SuccessHandler(res, "Ticket updated successfully", data);
 };
+
+
 
 const assignTicketById = async (
   req: Request,
