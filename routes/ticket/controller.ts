@@ -61,8 +61,6 @@ const updateTicketById = async (
 ) => {
   const ticket = await ticketService.getById(req.params.id);
 
-  console.log(req.body);
-
   const device = await deviceService.getById(ticket.device._id.toString());
 
   await deviceService.updateById(device?._id.toString(),
@@ -84,7 +82,7 @@ const updateTicketById = async (
     {
       status: req.body.status,
       date_resolved: req.body.date_resolved,
-      findings: req.body.findings,    
+      findings: req.body.findings,
     }
   );
 
@@ -98,6 +96,7 @@ const assignTicketById = async (
   res: Response,
   next: NextFunction
 ) => {
+
 
   const data = await ticketService.updateById(req.params.id, {
     assignee: req.body.assignee,
@@ -162,6 +161,16 @@ const deleteTicketById = async (
     : SuccessHandler(res, "Ticket deleted successfully", data);
 };
 
+const closeTicketById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const data = await ticketService.closeById(req.params.id);
+
+  return SuccessHandler(res, "Ticket closed successfully", data);
+}
+
 export {
   getAllTickets,
   getOneTicket,
@@ -170,4 +179,5 @@ export {
   getTicketsByAssignee,
   assignTicketById,
   deleteTicketById,
+  closeTicketById,
 };
