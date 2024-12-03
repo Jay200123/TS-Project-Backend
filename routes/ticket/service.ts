@@ -6,7 +6,7 @@ const getAll = async () => {
         .populate({
             path: "device",
             select: "type description owner status serial_number image",
-            populate: { 
+            populate: {
                 path: "owner",
                 select: "fname lname branch department position",
                 populate: [
@@ -67,16 +67,20 @@ const updateById = async (id: string, data: Partial<ITicket>) => {
     return await Ticket.findByIdAndUpdate(id, data, { new: true, runValidators: true })
 }
 
-const getTicketByAssignee = async (assignee: string) => {   
+const getTicketByAssignee = async (assignee: string) => {
     return await Ticket.find({ assignee: assignee })
 }
 
-const updateAssignee = async(id: string, assignee: string)=>{
-    return await Ticket.findByIdAndUpdate(id, {assignee: assignee});   
+const updateAssignee = async (id: string, assignee: string) => {
+    return await Ticket.findByIdAndUpdate(id, { assignee: assignee });
 }
 
 const deleteById = async (id: string) => {
     return await Ticket.findByIdAndDelete(id);
+}
+
+const closeById = async (id: string) => {
+    return await Ticket.findByIdAndUpdate(id, { status: "closed", runValidators: true, new: true });
 }
 
 export default {
@@ -86,5 +90,6 @@ export default {
     updateById,
     getTicketByAssignee,
     updateAssignee,
-    deleteById
+    deleteById,
+    closeById
 }
