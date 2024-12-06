@@ -1,4 +1,4 @@
-import { Document, mongoose, Types } from "../schema";
+import { Document, mongoose, } from "../schema";
 import { Image } from "../image";
 import { IUser } from "./user";
 
@@ -27,7 +27,8 @@ type STATUS =
   | "Return";
 
 interface IDevice extends Document {
-  owner: Types.ObjectId | IUser;
+  _id: mongoose.Types.ObjectId;
+  owner: mongoose.Types.ObjectId | IUser;
   type: Type;
   description: String;
   date_requested: Date;
