@@ -6,7 +6,7 @@ const getAll = async () => {
     return await Device.find()
         .populate({
             path: 'owner',
-            select: 'fname lname department position branch',
+            select: 'fname lname email department position branch',
             populate: [
                 {
                     path: 'branch',
