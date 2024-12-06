@@ -16,8 +16,8 @@ const departmentRoutes: Route[] = [
     {
         method: METHOD.GET as keyof Router,
         path: PATH.HISTORY_ID,
-        middleware: [verifyToken],
-        role: [ROLE.ADMIN],
+        middleware: [],
+        role: [],
         handler: historyController.getHistoryById
     },
     {
