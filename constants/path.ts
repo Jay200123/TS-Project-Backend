@@ -33,5 +33,6 @@ export const PATH = {
     HISTORIES: "/histories",
     HISTORY_ID: "/history/:id",
     EDIT_HISTORY_ID: "/history/edit/:id",
-    TEST_EMAIL: "/test/email",  
+    TEST_EMAIL: "/test/email",    
+    CLAIM_TICKET_ID: "/ticket/claim/:id",   
 }
