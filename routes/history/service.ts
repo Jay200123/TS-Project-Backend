@@ -5,7 +5,7 @@ const getAll = async () => {
     return await History.find()
         .populate({
             path: "ticket",
-            select: "_id device description date_submitted date_resolved status category level assignee findings",
+            select: "_id device description date_submitted date_resolved status category level assignee findings image",
             populate: [
                 {
                     path: 'device',
@@ -38,7 +38,39 @@ const getAll = async () => {
 }
 
 const getById = async (id: string) => {
-    return await History.findById(id);
+    return await History.findById(id)
+        .populate({
+            path: "ticket",
+            select: "_id device description date_submitted date_resolved status category level assignee findings image",
+            populate: [
+                {
+                    path: 'device',
+                    select: 'type description owner status serial_number',
+                    populate: [
+                        {
+                            path: 'owner',
+                            select: 'fname lname department position branch',
+                            populate: [
+                                {
+                                    path: "department",
+                                    select: "department_name"
+                                },
+                                {
+                                    path: "position",
+                                    select: "position_name"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    path: "assignee",
+                    select: "fname lname"
+                }
+            ],
+        })
+        .lean()
+        .exec();
 }
 
 const Add = async (data: IHistory) => {
