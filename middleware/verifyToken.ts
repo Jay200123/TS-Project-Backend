@@ -27,6 +27,7 @@ const verifyToken = async (req: AuthenticatedRequest, res: Response, next: NextF
         const decode = jwt.verify(token, process.env.JWT_SECRET) as DecodeToken;
         req.user = await userService.getById(decode._id);
         next();
+        
     } catch (err) {
         return next(new ErrorHandler(err.message))
     }
