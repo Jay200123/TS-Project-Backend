@@ -17,7 +17,7 @@ const userRouter: Route[] = [
     method: METHOD.GET as keyof Router,
     path: PATH.USER_ID,
     middleware: [verifyToken],
-    role: [ROLE.ADMIN, ROLE.EMPLOYEE],
+    role: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.TECHNICIAN],
     handler: userController.getUserById,
   },
   {
