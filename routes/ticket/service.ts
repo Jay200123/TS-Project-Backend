@@ -5,7 +5,7 @@ const getAll = async () => {
     return await Ticket.find()
         .populate({
             path: "device",
-            select: "type description owner status serial_number image",
+            select: "type description owner status serial_number",
             populate: {
                 path: "owner",
                 select: "fname lname branch department position",
@@ -83,6 +83,10 @@ const closeById = async (id: string) => {
     return await Ticket.findByIdAndUpdate(id, { status: "closed", runValidators: true, new: true });
 }
 
+const claimById = async (id: string, assignee: string) => {
+    return await Ticket.findByIdAndUpdate(id, { assignee: assignee, runValidators: true, new: true });    
+}
+
 export default {
     getAll,
     getById,
@@ -91,5 +95,6 @@ export default {
     getTicketByAssignee,
     updateAssignee,
     deleteById,
-    closeById
+    closeById,
+    claimById
 }
