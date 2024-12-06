@@ -50,7 +50,7 @@ const ticketRoutes: Route[] = [
     },
     {
         method: METHOD.GET as keyof Router,
-        path: PATH.TICKETS_BY_ASSIGNEE, 
+        path: PATH.TICKETS_BY_ASSIGNEE,
         middleware: [verifyToken],
         role: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.TECHNICIAN],
         handler: ticketController.getTicketsByAssignee,
@@ -61,7 +61,14 @@ const ticketRoutes: Route[] = [
         middleware: [verifyToken],
         role: [ROLE.ADMIN],
         handler: ticketController.closeTicketById,
-      }
+    },
+    {
+        method: METHOD.PATCH as keyof Router,
+        path: PATH.CLAIM_TICKET_ID,
+        middleware: [verifyToken],
+        role: [ROLE.TECHNICIAN],
+        handler: ticketController.claimTicketById,
+    }
 ];
 
 ticketRoutes.forEach((route) => {
