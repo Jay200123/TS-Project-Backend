@@ -70,6 +70,17 @@ const updateTicketById = async (
   );
 
   if (req.body.status === "resolved") {
+
+    const user = await userService.findOneById(device?.owner._id.toString());
+    await sendEmail(user?.email, `Ticket has been resolved with Tickted ID: ${ticket?._id}`);
+
+    const assignee = await userService.findOneById(ticket.assignee.toString()); 
+
+    const admins = await userService.findAdminsByEmail();
+    for (const admin of admins) {
+      await sendEmail(admin.email, `Ticket already resolved with Ticket ID: ${req.params.id}`);  
+    }
+
     await historyService.Add(
       {
         ticket: ticket?._id,
@@ -168,7 +179,19 @@ const closeTicketById = async (
 ) => {
   const data = await ticketService.closeById(req.params.id);
 
+  const admins = await userService.findAdminsByEmail();
+    for (const admin of admins) {
+      await sendEmail(admin.email, `Ticket Close with Ticket ID: ${data?._id.toString()}`);  
+    }
+
   return SuccessHandler(res, "Ticket closed successfully", data);
+}
+
+const claimTicketById = async ( req: Request, res: Response, next: NextFunction) => {   
+  const data = await ticketService.claimById(req.params.id, req.body.assignee); 
+  console.log(req.body.assignee);
+
+  return SuccessHandler(res, "Ticket claimed successfully", data);    
 }
 
 export {
@@ -180,4 +203,5 @@ export {
   assignTicketById,
   deleteTicketById,
   closeTicketById,
+  claimTicketById,
 };
