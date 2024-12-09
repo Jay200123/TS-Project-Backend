@@ -35,13 +35,22 @@ const updateBranchById = async (req: Request, res: Response, next: NextFunction)
         ? branch.image.map((i) => i?.public_id)
         : [];
 
-    const image = await uploadImage(req.files as Express.Multer.File[], oldImage);
+    let image: {
+        public_id: string;
+        url: string;
+        originalname: string
+    }[];
 
-    const data = await branchService.updateById(req.params.id,
-        {
-            ...req.body,
-            image: image
-        });
+    if (Array.isArray(req.files) && req.files.length > 0) {
+        image = await uploadImage(req.files as Express.Multer.File[], oldImage);
+    } else {
+        image = branch.image;
+    }
+
+    const data = await branchService.updateById(req.params.id, {
+        ...req.body,
+        image: image,
+    });
     return SuccessHandler(res, 'Branch updated successfully', data)
 }
 
@@ -52,12 +61,12 @@ const deleteBranchById = async (req: Request, res: Response, next: NextFunction)
         ? branch.image.map((i) => i?.public_id)
         : [];
 
-        if (branchImage.length > 0) {
-            await cloudinary.api.delete_resources(branchImage);
-        }
+    if (branchImage.length > 0) {
+        await cloudinary.api.delete_resources(branchImage);
+    }
 
     const data = await branchService.deleteById(req.params.id);
-    
+
     return SuccessHandler(res, 'Branch deleted successfully', data)
 }
 
