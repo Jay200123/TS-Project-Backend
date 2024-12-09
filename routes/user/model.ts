@@ -3,23 +3,15 @@ import { RESOURCE } from "../../constants";
 import { IUser } from "../../interface";
 
 const userSchema: Schema<IUser> = new Schema({
-    fname: {
+    idnumber: {
         type: String,
-        required: true
+        required: true  
     },
-    lname: {
+    fullname: {
         type: String,
         required: true
     },
     phone: {
-        type: String,
-        required: true
-    },
-    address: {
-        type: String,
-        required: true
-    },
-    city: {
         type: String,
         required: true
     },
@@ -36,7 +28,7 @@ const userSchema: Schema<IUser> = new Schema({
         default: "Employee",
         enum: ["Admin", "Employee", "Technician"],
     },
-    isAuthorized: {
+    isPasswordChanged: {
         type: Boolean,
         default: false
     },
@@ -51,14 +43,7 @@ const userSchema: Schema<IUser> = new Schema({
     position: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "positions"
-    },
-    image: [
-        {
-            public_id: String,
-            url: String,
-            originalname: String
-        }
-    ]
+    }
 });
 
 const User = model<IUser>(RESOURCE.USERS, userSchema);
