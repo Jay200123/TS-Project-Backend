@@ -34,5 +34,7 @@ export const PATH = {
     HISTORY_ID: "/history/:id",
     EDIT_HISTORY_ID: "/history/edit/:id",
     TEST_EMAIL: "/test/email",    
-    CLAIM_TICKET_ID: "/ticket/claim/:id",   
+    CLAIM_TICKET_ID: "/ticket/claim/:id", 
+    CHANGE_PASSWORD: "/change/password/:id",  
+    RESET_PASSWORD: "/reset/password/:id",      
 }
