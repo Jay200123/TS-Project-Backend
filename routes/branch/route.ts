@@ -15,9 +15,9 @@ const branchRoutes: Route[] = [
     },
     {
         method: METHOD.GET as keyof Router,
-        path: PATH.BRANCH_ID,
-        middleware: [],
-        role: [],
+        path: PATH.BRANCH_ID,   
+        middleware: [verifyToken],
+        role: [ROLE.ADMIN],
         handler: branchController.getBranchById,
     },
     {
