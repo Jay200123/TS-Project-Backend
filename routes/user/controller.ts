@@ -1,9 +1,9 @@
 import userService from "./service";
-import { 
+import {
   ErrorHandler,
-   SuccessHandler
+  SuccessHandler
 } from "../../utils";
-import { 
+import {
   Request,
   Response,
   NextFunction
@@ -12,9 +12,9 @@ import {
   uploadImage,
   hashPassword,
   sendEmail
- } from "../../utils";
-import { STATUSCODE } from "../../constants";
-import { cloudinary } from "../../config";
+} from "../../utils";
+import { STATUSCODE, RESOURCE } from "../../constants";
+import bcrypt from "bcrypt";
 
 const getAllUser = async (req: Request, res: Response, next: NextFunction) => {
   const data = await userService.getAll();
@@ -31,9 +31,9 @@ const getUserById = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
-  const password = await hashPassword(req.body.password);
+  const password = await hashPassword(RESOURCE.DEFAULT_PASSWORD);
   const image = await uploadImage(req.files as Express.Multer.File[], []);
-  await sendEmail(req.body.email, `Hi! ${req.body.fname} ${req.body.lname}, Your registration is currently under review, and you will be notified once it has been approved by an administrator.`); 
+  await sendEmail(req.body.email, `Hi! ${req.body.fullname}, Your account is successfully created please login to the IT Ticket Systems and change your password.`);
 
   const data = await userService.Add({
     ...req.body,
@@ -42,9 +42,11 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
   });
 
   const admins = await userService.findAdminsByEmail();
-  for(const admin of admins){
-    await sendEmail(admin.email, `A new user has registered at the IT Support Ticket System ${req.body.fname} ${req.body.lname} please approve or disapprove the user`); 
-  }; 
+  for (const admin of admins) {
+    await sendEmail(
+      admin.email, `A new user has registered at the IT Support Ticket System ${req.body.fullname}.`
+    );
+  };
 
   return SuccessHandler(res, "User created successfully", data);
 };
@@ -54,17 +56,9 @@ const updateUserById = async (
   res: Response,
   next: NextFunction
 ) => {
-  const user = await userService.getById(req.params.id);
-
-  const oldImage = Array.isArray(user?.image)
-    ? user.image.map((i) => i?.public_id)
-    : []; 
-
-  const image = await uploadImage(req.files as Express.Multer.File[], oldImage);
   const data = await userService.updateById(req.params.id,
     {
       ...req.body,
-      image: image,
     }
   );
 
@@ -76,64 +70,52 @@ const deleteUserById = async (
   res: Response,
   next: NextFunction
 ) => {
-  const user = await userService.getById(req.params.id);
-
-  const userImage = Array.isArray(user?.image)
-    ? user.image.map((i) => i?.public_id)
-    : [];
-
-  if (userImage.length > 0) {
-    await cloudinary.api.delete_resources(userImage);
-  }
-
   const data = await userService.deleteById(req.params.id);
 
   return SuccessHandler(res, "User deleted successfully", data);
 };
 
-const activateUser = async (
+
+const getAllAdmins = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const data = await userService.findByIdAndAuthorize(req.params.id);
-  await sendEmail(data?.email, `Hi! ${data?.fname} ${data?.lname}, Your registration has been approved by an administrator, you can now login to the IT Support Ticket System`);  
+  const data = await userService.findAdminsByEmail();
 
-  return !data
-    ? next(new ErrorHandler("No User record found"))
-    : SuccessHandler(res, "User Record found", data);
-};
-
-const userProfileInfo = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-)=>{
-  const data = await userService.findOneById(req.params.id);
-  return !data
-    ? next(new ErrorHandler("No User record found"))
-    : SuccessHandler(res, "User Record found", data);
-}
-
-const getAllAdmins = async (
-  req: Request, 
-  res: Response,
-  next: NextFunction
-  )=>{
-    const data = await userService.findAdminsByEmail(); 
-
-  for(const test of data){
+  for (const test of data) {
     console.log(test.email);
   }
 }
 
+const updatePassword = async (req: Request, res: Response, next: NextFunction) => {
+  const user = await userService.getById(req.params.id);
+
+  const match = await bcrypt.compare(req.body.password, user.password);
+  if (!match) {
+    return next(new ErrorHandler("Old Password does not match"));
+  }
+
+  const newPassword = await hashPassword(req.body.newPassword);
+
+  const data = await userService.updateById(req.params.id, { password: newPassword, isPasswordChanged: true });
+  return SuccessHandler(res, "Password updated successfully", data);
+}
+
+const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
+  const password = await hashPassword(RESOURCE.DEFAULT_PASSWORD);
+  const data = await userService.updateById(req.params.id, { password: password, isPasswordChanged: false });
+  await sendEmail(data?.email, `Hi! ${data?.fullname}, Your password has been reset to the default password. Please login to the IT Ticket Systems and change your password.`); 
+  return SuccessHandler(res, "Password reset successfully", data);
+
+}
 export {
   getAllUser,
   getUserById,
   createUser,
   updateUserById,
   deleteUserById,
-  activateUser,
-  userProfileInfo,
-  getAllAdmins
+  updatePassword,
+  getAllAdmins,
+  resetPassword
 };
