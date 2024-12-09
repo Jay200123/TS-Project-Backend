@@ -10,4 +10,5 @@ export const RESOURCE = {
     DEFECTIVE: "defectives",
     HISTORY: "histories",
     GMAIL: "gmail",	
+    DEFAULT_PASSWORD: "admin123", 
 }
