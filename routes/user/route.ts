@@ -10,7 +10,7 @@ const userRouter: Route[] = [
     method: METHOD.GET as keyof Router,
     path: PATH.USERS,
     middleware: [verifyToken],
-    role: [ROLE.ADMIN, ROLE.EMPLOYEE],
+    role: [ROLE.ADMIN],
     handler: userController.getAllUser,
   },
   {
@@ -24,7 +24,7 @@ const userRouter: Route[] = [
     method: METHOD.PATCH as keyof Router,
     path: PATH.EDIT_USER_ID,
     middleware: [verifyToken],
-    role: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.TECHNICIAN],
+    role: [ROLE.ADMIN],
     handler: userController.updateUserById,
   },
   {
@@ -35,26 +35,26 @@ const userRouter: Route[] = [
     handler: userController.deleteUserById,
   },
   {
-    method: METHOD.PATCH as keyof Router,
-    path: PATH.ACTIVATE_USER,
-    middleware: [verifyToken],
-    role: [ROLE.ADMIN],
-    handler: userController.activateUser,
-  },
-  {
-    method: METHOD.GET as keyof Router,
-    path: PATH.USER_PROFILE,
-    middleware: [verifyToken],
-    role: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.TECHNICIAN],
-    handler: userController.userProfileInfo,
-  },
-  {
     method: METHOD.POST as keyof Router,
     path: PATH.TEST_EMAIL,
     middleware: [verifyToken],
     role: [ROLE.ADMIN, ROLE.EMPLOYEE],
-    handler: userController.getAllAdmins ,
-},
+    handler: userController.getAllAdmins,
+  },
+  {
+    method: METHOD.PATCH as keyof Router,
+    path: PATH.CHANGE_PASSWORD,
+    middleware: [verifyToken],
+    role: [ROLE.ADMIN, ROLE.EMPLOYEE, ROLE.TECHNICIAN],
+    handler: userController.updatePassword,
+  },
+  {
+    method: METHOD.PATCH as keyof Router,
+    path: PATH.RESET_PASSWORD,
+    middleware: [verifyToken],
+    role: [ROLE.ADMIN],
+    handler: userController.resetPassword,
+  }
 ];
 
 userRouter.forEach((route) => {
