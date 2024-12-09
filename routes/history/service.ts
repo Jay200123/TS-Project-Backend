@@ -13,7 +13,7 @@ const getAll = async () => {
                     populate: [
                         {
                             path: 'owner',
-                            select: 'fname lname department position branch',
+                            select: 'fullname lname department position branch',
                             populate: [
                                 {
                                     path: "department",
@@ -29,7 +29,7 @@ const getAll = async () => {
                 },
                 {
                     path: "assignee",
-                    select: "fname lname"
+                    select: "fullname lname"
                 }
             ],
         })
@@ -49,7 +49,7 @@ const getById = async (id: string) => {
                     populate: [
                         {
                             path: 'owner',
-                            select: 'fname lname department position branch',
+                            select: 'fullname lname department position branch',
                             populate: [
                                 {
                                     path: "department",
@@ -65,7 +65,7 @@ const getById = async (id: string) => {
                 },
                 {
                     path: "assignee",
-                    select: "fname lname"
+                    select: "fullname lname"
                 }
             ],
         })
