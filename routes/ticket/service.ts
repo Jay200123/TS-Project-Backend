@@ -8,7 +8,7 @@ const getAll = async () => {
             select: "type description owner status serial_number",
             populate: {
                 path: "owner",
-                select: "fname lname branch department position",
+                select: "fullname branch department position",
                 populate: [
                     {
                         path: "branch",
@@ -25,7 +25,7 @@ const getAll = async () => {
                 ]
             }
         })
-        .populate("assignee", "fname lname")
+        .populate("assignee", "fullname")
         .lean()
         .exec();
 }
@@ -37,7 +37,7 @@ const getById = async (id: string) => {
             select: "type status description owner image",
             populate: {
                 path: "owner",
-                select: "fname lname branch department position",
+                select: "fullname branch department position",
                 populate: [
                     {
                         path: "branch",
@@ -54,7 +54,7 @@ const getById = async (id: string) => {
                 ]
             }
         })
-        .populate("assignee", "fname lname")
+        .populate("assignee", "fullname")
         .lean()
         .exec();
 }
