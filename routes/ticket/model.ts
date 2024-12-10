@@ -20,8 +20,8 @@ const ticketSchema: Schema<ITicket> = new Schema({
     },
     status: {
         type: String,
-        enum: ["pending", "resolved", "in-progress", "closed"],
-        default: "pending"
+        enum: ["new", "pending", "resolved", "in-progress", "closed"],
+        default: "new"
     },
     category: {
         type: String,
