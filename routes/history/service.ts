@@ -9,7 +9,7 @@ const getAll = async () => {
             populate: [
                 {
                     path: 'device',
-                    select: 'type description owner status serial_number',
+                    select: 'type description owner status serial_number image',
                     populate: [
                         {
                             path: 'owner',
@@ -45,7 +45,7 @@ const getById = async (id: string) => {
             populate: [
                 {
                     path: 'device',
-                    select: 'type description owner status serial_number',
+                    select: 'image type description owner status serial_number',
                     populate: [
                         {
                             path: 'owner',
