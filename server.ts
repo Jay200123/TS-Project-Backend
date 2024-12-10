@@ -11,7 +11,7 @@ import {
   ticket,
   history,
 } from "./routes";
-import { upload } from "./utils";
+import { upload, resetTickets } from "./utils";
 import { errorJson, errorHandler } from "./middleware";
 import path from "path";
 import cookieParser from "cookie-parser";
@@ -20,6 +20,7 @@ import corsOptions from "./config/corsOption";
 
 globalEnvironment();
 connectDB();
+resetTickets();
 const app = express();
 
 app.use(upload.array("image"));
@@ -32,6 +33,7 @@ app.use(cors(corsOptions));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
 
 app.delete("/drop/database", async(req, res, next)=>{
   await mongoose.connection.db.dropDatabase();
