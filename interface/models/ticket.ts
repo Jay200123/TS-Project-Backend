@@ -2,7 +2,7 @@ import { mongoose, Types } from "../schema";
 import { Image } from "../image";
 import { IDevice } from "./device";
 
-type STATUS = "pending" | "resolved" | "in-progress" | "closed";
+type STATUS = "new" | "pending" | "resolved" | "in-progress" | "closed";
 type Category = "hardware" | "software" | "network";
 type LEVEL = "urgent" | "priority" | "non-urgent";
 
