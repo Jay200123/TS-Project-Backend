@@ -16,6 +16,8 @@ interface ITicket {
     level: LEVEL,
     assignee: mongoose.Schema.Types.ObjectId,
     findings: string,
+    counter: number;
+    ticketNumber: string;  
     image: Image[],
 }
 
