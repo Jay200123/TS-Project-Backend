@@ -34,6 +34,7 @@ interface IDevice extends Document {
   date_requested: Date;
   date_purchased: Date;
   serial_number: String;
+  price: Number;
   status: STATUS;
   image: Image[];
 }
