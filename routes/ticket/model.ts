@@ -41,6 +41,14 @@ const ticketSchema: Schema<ITicket> = new Schema({
         type: String,
         default: null
     },
+    counter: {
+        type: Number,
+        default: 0,
+    },
+    ticketNumber: {
+        type: String,
+        required: true,
+    },
     image: [
         {
             public_id: String,
