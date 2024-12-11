@@ -53,7 +53,10 @@ const DeviceSchema: Schema<IDevice> = new Schema({
         ],
         default: "Available"
     },
-
+    price: {
+        type: Number,
+        required: true
+    },
     image: [
         {
             public_id: String,
