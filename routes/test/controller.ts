@@ -4,6 +4,7 @@ import { Request, Response, NextFunction } from '../../interface';
 import { STATUSCODE } from '../../constants';
 import { uploadImage } from '../../utils';
 import { cloudinary } from '../../config';
+import Test from './model';
 
 const getAllTests = async (req: Request, res: Response, next: NextFunction) => {
     const data = await testService.getAll();
@@ -20,10 +21,28 @@ const getTestById = async (req: Request, res: Response, next: NextFunction) => {
 }
 
 const createTest = async (req: Request, res: Response, next: NextFunction) => {
+    const lastTicket = await testService.getOne();  
+
+    let counter: number = 0;
+    let ticketNumber: string = "";
+
+    if (lastTicket === null) {
+        counter++;
+        ticketNumber = `IT-T-${counter}`;
+    }
+
+    if (lastTicket) {
+        counter = lastTicket?.counter + 1;
+        ticketNumber = `IT-T-${counter}`;
+    }
+
     const image = await uploadImage(req.files as Express.Multer.File[], []);
+
     const data = await testService.Add(
         {
             ...req.body,
+            counter: counter,
+            ticketNumber: ticketNumber,
             image: image,
         }
     );
@@ -34,6 +53,7 @@ const createTest = async (req: Request, res: Response, next: NextFunction) => {
 const updateTestById = async (req: Request, res: Response, next: NextFunction) => {
     const test = await testService.getById(req.params.id);
     const oldImage = Array.isArray(test?.image) ? test.image.map((i) => i?.public_id) : [];
+
 
     const image = await uploadImage(req.files as Express.Multer.File[], oldImage);
     const data = await testService.updateById(
