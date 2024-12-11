@@ -59,6 +59,10 @@ const getById = async (id: string) => {
         .exec();
 }
 
+const getOne = async () => {
+    return await Ticket.findOne().sort({ date_submitted: -1 })
+}
+
 const Add = async (data: ITicket) => {
     return await Ticket.create(data);
 }
@@ -84,12 +88,13 @@ const closeById = async (id: string) => {
 }
 
 const claimById = async (id: string, assignee: string) => {
-    return await Ticket.findByIdAndUpdate(id, { assignee: assignee, runValidators: true, new: true });    
+    return await Ticket.findByIdAndUpdate(id, { assignee: assignee, runValidators: true, new: true });
 }
 
 export default {
     getAll,
     getById,
+    getOne,
     Add,
     updateById,
     getTicketByAssignee,
