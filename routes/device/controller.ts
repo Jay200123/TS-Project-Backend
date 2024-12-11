@@ -3,6 +3,7 @@ import { ErrorHandler, SuccessHandler } from "../../utils";
 import { uploadImage } from "../../utils";
 import { cloudinary } from "../../config";
 import { Request, Response, NextFunction } from "../../interface";
+import { Image } from "../../interface";
 
 const getAllDevices = async (req: Request, res: Response, next: NextFunction) => {
     const data = await deviceService.getAll();
@@ -34,7 +35,13 @@ const updateDeviceById = async (req: Request, res: Response, next: NextFunction)
         ? device.image.map((i) => i?.public_id)
         : [];
 
-    const image = await uploadImage(req.files as Express.Multer.File[], oldImage);
+        let image:Image[];
+
+        if (Array.isArray(req.files) && req.files.length > 0) {
+            image = await uploadImage(req.files as Express.Multer.File[], oldImage);
+        } else {
+            image = device.image;
+        }
 
     const data = await deviceService.updateById(req.params.id,
         {
