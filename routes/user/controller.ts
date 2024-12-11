@@ -11,7 +11,6 @@ import {
 import {
   uploadImage,
   hashPassword,
-  sendEmail
 } from "../../utils";
 import { STATUSCODE, RESOURCE } from "../../constants";
 import bcrypt from "bcrypt";
@@ -33,20 +32,12 @@ const getUserById = async (req: Request, res: Response, next: NextFunction) => {
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
   const password = await hashPassword(RESOURCE.DEFAULT_PASSWORD);
   const image = await uploadImage(req.files as Express.Multer.File[], []);
-  await sendEmail(req.body.email, `Hi! ${req.body.fullname}, Your account is successfully created please login to the IT Ticket Systems and change your password.`);
 
   const data = await userService.Add({
     ...req.body,
     image: image,
     password: password,
   });
-
-  const admins = await userService.findAdminsByEmail();
-  for (const admin of admins) {
-    await sendEmail(
-      admin.email, `A new user has registered at the IT Support Ticket System ${req.body.fullname}.`
-    );
-  };
 
   return SuccessHandler(res, "User created successfully", data);
 };
@@ -89,13 +80,6 @@ const getAllAdmins = async (
 }
 
 const updatePassword = async (req: Request, res: Response, next: NextFunction) => {
-  const user = await userService.getById(req.params.id);
-
-  const match = await bcrypt.compare(req.body.password, user.password);
-  if (!match) {
-    return next(new ErrorHandler("Old Password does not match"));
-  }
-
   const newPassword = await hashPassword(req.body.newPassword);
 
   const data = await userService.updateById(req.params.id, { password: newPassword, isPasswordChanged: true });
@@ -105,7 +89,6 @@ const updatePassword = async (req: Request, res: Response, next: NextFunction) =
 const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
   const password = await hashPassword(RESOURCE.DEFAULT_PASSWORD);
   const data = await userService.updateById(req.params.id, { password: password, isPasswordChanged: false });
-  await sendEmail(data?.email, `Hi! ${data?.fullname}, Your password has been reset to the default password. Please login to the IT Ticket Systems and change your password.`); 
   return SuccessHandler(res, "Password reset successfully", data);
 
 }
