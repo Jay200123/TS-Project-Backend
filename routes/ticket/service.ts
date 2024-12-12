@@ -27,7 +27,7 @@ const getAll = async () => {
         })
         .populate("assignee", "fullname")
         .lean()
-        .exec();
+        .sort({ date_submitted: -1 })   
 }
 
 const getById = async (id: string) => {
