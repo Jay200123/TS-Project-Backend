@@ -24,6 +24,7 @@ resetTickets();
 const app = express();
 
 app.use(upload.array("image"));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -35,7 +36,7 @@ app.get("/", (req, res) => {
 });
 
 
-app.delete("/drop/database", async(req, res, next)=>{
+app.delete("/drop/database", async (req, res, next) => {
   await mongoose.connection.db.dropDatabase();
   res.status(200).json({ message: 'Database dropped successfully!' });
 })
