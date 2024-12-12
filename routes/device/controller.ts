@@ -21,8 +21,10 @@ const getOneDevice = async (req: Request, res: Response, next: NextFunction) => 
 
 const createDevice = async (req: Request, res: Response, next: NextFunction) => {
     const image = await uploadImage(req.files as Express.Multer.File[], []);
+    const price = Number(req.body.price);
     const data = await deviceService.Add({
         ...req.body,
+        price: price,
         image: image
     });
     return SuccessHandler(res, "Device created successfully", data);
