@@ -1,12 +1,10 @@
 import ticketService from "./service";
 import { Request, Response, NextFunction } from "../../interface";
-import { ErrorHandler, SuccessHandler, uploadImage, sendEmail } from "../../utils";
+import { ErrorHandler, SuccessHandler, uploadImage, sendEmail, upload } from "../../utils";
 import { cloudinary } from "../../config";
 import historyService from "../history/service";
 import deviceService from "../device/service";
-import userService from "../user/service";
-import { v4 as uuidv4 } from 'uuid';
-
+import { Image } from "../../interface";
 
 const getAllTickets = async (
   req: Request,
@@ -37,24 +35,19 @@ const createTicket = async (
   next: NextFunction
 ) => {
 
-  const lastTicket = await ticketService.getOne();  
+  const lastTicket = await ticketService.getOne();
 
   let counter: number = 0;
   let ticketNumber: string = "";
 
-  if (lastTicket === null) {
-      counter++;
-      ticketNumber = `IT-T-${counter}`;
-  }
+  counter = lastTicket ? lastTicket?.counter + 1 : counter + 1;
+  ticketNumber = `IT-T-${counter}`;
 
-  if (lastTicket) {
-      counter = lastTicket?.counter + 1;
-      ticketNumber = `IT-T-${counter}`;
-  }
-  
   const image = await uploadImage(req.files as Express.Multer.File[], []);
   const data = await ticketService.Add({
     ...req.body,
+    counter: counter,
+    ticketNumber: ticketNumber,
     image: image,
   });
 
@@ -71,14 +64,13 @@ const updateTicketById = async (
   const ticket = await ticketService.getById(req.params.id);
 
   const device = await deviceService.getById(ticket.device._id.toString());
-
   await deviceService.updateById(device?._id.toString(),
     {
       status: req.body.device_status,
     }
   );
 
-  if (req.body.status === "resolved") {
+  if (req.body.status === "resolved" || req.body.status === "closed") {
 
     await historyService.Add(
       {
@@ -88,11 +80,27 @@ const updateTicketById = async (
     );
   }
 
+  const isClosed = req.body.status === "closed" ? new Date : null;
+
+  const oldImage = Array.isArray(ticket?.image)
+    ? ticket.image.map((i) => i?.public_id)
+    : [];
+
+  let image: Image[];
+
+  if (Array.isArray(req.files) && req.files.length > 0) {
+    image = await uploadImage(req.files as Express.Multer.File[], oldImage);
+  } else {
+    image = ticket?.image;
+  }
+
   const data = await ticketService.updateById(req.params.id,
     {
       status: req.body.status,
-      date_resolved: req.body.date_resolved,
+      date_resolved: isClosed,
       findings: req.body.findings,
+      image: image,
+
     }
   );
 
@@ -159,9 +167,9 @@ const closeTicketById = async (
   return SuccessHandler(res, "Ticket closed successfully", data);
 }
 
-const claimTicketById = async ( req: Request, res: Response, next: NextFunction) => {   
-  const data = await ticketService.claimById(req.params.id, req.body.assignee); 
-  return SuccessHandler(res, "Ticket claimed successfully", data);    
+const claimTicketById = async (req: Request, res: Response, next: NextFunction) => {
+  const data = await ticketService.claimById(req.params.id, req.body.assignee);
+  return SuccessHandler(res, "Ticket claimed successfully", data);
 }
 
 export {
