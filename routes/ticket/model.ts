@@ -12,7 +12,6 @@ const ticketSchema: Schema<ITicket> = new Schema({
     },
     date_submitted: {
         type: Date,
-        required: true,
         default: Date.now
     },
     date_resolved: {
@@ -55,7 +54,7 @@ const ticketSchema: Schema<ITicket> = new Schema({
             url: String,
             originalname: String,
         }
-    ]
+    ],
 });
 const Ticket = model<ITicket>(RESOURCE.TICKET, ticketSchema);
 export default Ticket;
