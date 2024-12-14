@@ -7,5 +7,6 @@ export { default as device } from './device/route';
 export { default as position } from './position/route';
 export { default as ticket } from './ticket/route';
 export { default as history } from './history/route';
+export { default as equipment } from './equipment/route';
 
 
