@@ -11,4 +11,5 @@ export const RESOURCE = {
     HISTORY: "histories",
     GMAIL: "gmail",	
     DEFAULT_PASSWORD: "admin123", 
+    EQUIPMENT: "equipments",
 }
