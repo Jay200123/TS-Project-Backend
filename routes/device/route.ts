@@ -45,7 +45,7 @@ const deviceRoutes: Route[] = [
 
 deviceRoutes.forEach((route) => {
     const { method, path, middleware = [], role = [], handler } = route;
-    router[method as any](path, [...middleware, userRole(...role)], handler);
+    router[method as any](path, middleware.concat(userRole(...role)), handler);
 });
 
 export default router;
