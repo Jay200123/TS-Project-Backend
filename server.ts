@@ -10,6 +10,7 @@ import {
   device,
   ticket,
   history,
+  equipment,
 } from "./routes";
 import { upload, resetTickets } from "./utils";
 import { errorJson, errorHandler } from "./middleware";
@@ -35,12 +36,10 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-
 app.delete("/drop/database", async (req, res, next) => {
   await mongoose.connection.db.dropDatabase();
-  res.status(200).json({ message: 'Database dropped successfully!' });
-})
-
+  res.status(200).json({ message: "Database dropped successfully!" });
+});
 
 app.use(
   "/api/v1",
@@ -52,7 +51,8 @@ app.use(
   position,
   device,
   ticket,
-  history
+  history,
+  equipment
 );
 
 app.all("*", (req, res) => {
