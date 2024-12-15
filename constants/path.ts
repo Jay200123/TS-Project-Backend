@@ -40,4 +40,7 @@ export const PATH = {
   EQUIPMENTS: "/equipments",
   EQUIPMENT_ID: "/equipment/:id",
   EDIT_EQUIPMENT_ID: "/equipment/edit/:id",
+  BORROWS: "/borrows",
+  BORROW_ID: "/borrow/:id",
+  EDIT_BORROW_ID: "/borrow/edit/:id",
 };
