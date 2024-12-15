@@ -12,4 +12,5 @@ export const RESOURCE = {
     GMAIL: "gmail",	
     DEFAULT_PASSWORD: "admin123", 
     EQUIPMENT: "equipments",
+    BORROW: "borrows",  
 }
