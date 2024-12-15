@@ -73,7 +73,7 @@ const getById = async (id: string) => {
         .exec();
 }
 
-const Add = async (data: IHistory) => {
+const Add = async (data) => {
     return await History.create(data);
 }
 
