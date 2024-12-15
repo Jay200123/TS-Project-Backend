@@ -5,7 +5,7 @@ import { verifyToken, userRole } from "../../middleware";
 
 const router = Router();
 
-const departmentRoutes: Route[] = [
+const historyRoutes: Route[] = [
     {
         method: METHOD.GET as keyof Router,
         path: PATH.HISTORIES,
@@ -43,7 +43,7 @@ const departmentRoutes: Route[] = [
     }
 ];
 
-departmentRoutes.forEach((route) => {
+historyRoutes.forEach((route) => {
     const { method, path, middleware = [], role = [], handler } = route;
     router[method as any](path, middleware.concat(userRole(...role)), handler);
 });
