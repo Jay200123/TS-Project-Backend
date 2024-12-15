@@ -71,10 +71,9 @@ const updateTicketById = async (
   );
 
   if (req.body.status === "resolved" || req.body.status === "closed") {
-
     await historyService.Add(
       {
-        ticket: ticket?._id,
+        ticket: ticket._id,
         device_status: req.body.device_status,
       }
     );
