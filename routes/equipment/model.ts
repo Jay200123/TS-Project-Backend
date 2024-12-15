@@ -2,7 +2,7 @@ import { IEquipment, Schema, model } from "../../interface";
 import { RESOURCE } from "../../constants";
 
 const equipmentSchema: Schema<IEquipment> = new Schema({
-  type: {
+  equipment_name: {
     type: String,
     required: true,
   },
