@@ -1,6 +1,7 @@
 import borrowService from "./service";
 import { Request, Response, NextFunction } from "../../interface";
 import { ErrorHandler, SuccessHandler } from "../../utils";
+import equipmentService from "../equipment/service";
 
 const getAllBorrows = async (
   req: Request,
@@ -29,6 +30,17 @@ const createBorrow = async (
   res: Response,
   next: NextFunction
 ) => {
+  const equipment = await equipmentService.getById(req.body.equipment);
+
+  if (equipment.quantity < req.body.quantity) {
+    return next(new ErrorHandler("Insufficient quantity"));
+  }
+
+  await equipmentService.updateById(req.body.equipment, {
+    quantity: equipment.quantity - req.body.quantity,
+    borrowedQuantity: equipment.borrowedQuantity + req.body.quantity,
+  });
+
   const data = await borrowService.Add({
     ...req.body,
   });
@@ -43,6 +55,37 @@ const updateBorrowById = async (
   res: Response,
   next: NextFunction
 ) => {
+  const borrow = await borrowService.getById(req.params.id);
+  const equipment = await equipmentService.getById(
+    borrow.equipment?.toString()
+  );
+
+  const isReturned = req.body.status === "returned" ? true : false;
+  if (isReturned) {
+    await equipmentService.updateById(borrow.equipment?.toString(), {
+      quantity: equipment.quantity + borrow.quantity,
+      borrowedQuantity: equipment.borrowedQuantity - borrow.quantity,
+    });
+  }
+
+  const isDamage = req.body.status === "returned damaged" ? true : false;
+
+  if (isDamage) {
+    await equipmentService.updateById(borrow.equipment?.toString(), {
+      damagedQuantity: equipment.quantity + borrow.quantity,
+      borrowedQuantity: equipment.borrowedQuantity - borrow.quantity,
+    });
+  }
+
+  const isLost = req.body.status === "lost" ? true : false;
+
+  if (isLost) {
+    await equipmentService.updateById(borrow.equipment?.toString(), {
+      lostQuantity: equipment.lostQuantity + borrow.quantity,
+      borrowedQuantity: equipment.borrowedQuantity - borrow.quantity,
+    });
+  }
+
   const data = await borrowService.updateById(req.params.id, {
     ...req.body,
   });
