@@ -13,3 +13,4 @@ export * from "./models/ticket";
 export * from "./models/history";   
 export * from "./models/defective";
 export * from "./models/equipment";
+export * from "./models/borrow";    
