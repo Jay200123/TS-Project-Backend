@@ -6,7 +6,9 @@ interface IEquipment extends Document {
     brand: string;
     price: number;
     quantity: number; 
-    borrowedQuantity: number;  
+    borrowedQuantity: number; 
+    damagedQuantity: number;    
+    lostQuantity: number; 
     image: Image[];
 }
 
