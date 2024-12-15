@@ -11,6 +11,7 @@ import {
   ticket,
   history,
   equipment,
+  borrow,
 } from "./routes";
 import { upload, resetTickets } from "./utils";
 import { errorJson, errorHandler } from "./middleware";
@@ -52,7 +53,8 @@ app.use(
   device,
   ticket,
   history,
-  equipment
+  equipment,
+  borrow
 );
 
 app.all("*", (req, res) => {
