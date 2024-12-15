@@ -19,6 +19,14 @@ const equipmentSchema: Schema<IEquipment> = new Schema({
     type: Number,
     default: 0,
   },
+  damagedQuantity: {
+    type: Number,
+    default: 0,
+  },
+  lostQuantity: {
+    type: Number,
+    default: 0,
+  },
   image: [
     {
       public_id: String,
