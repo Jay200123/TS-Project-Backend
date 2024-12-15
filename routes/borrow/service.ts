@@ -23,6 +23,7 @@ const getAll = async () => {
         select: "position_name",
       },
     })
+    .populate("equipment", "equipment_name")
     .lean()
     .exec();
 };
@@ -49,6 +50,7 @@ const getById = async (id: string) => {
         select: "position_name",
       },
     })
+    .populate("equipment", "equipment_name")
     .lean()
     .exec();
 };
