@@ -43,9 +43,9 @@ const equipmentRoutes: Route[] = [
   },
 ];
 
-equipmentRoutes.forEach((router) => {
-  const { method, path, role = [], middleware = [], handler } = router;
-  router[method](path, middleware.concat(userRole(...role)), handler);
+equipmentRoutes.forEach((route) => {
+  const { method, path, role = [], middleware = [], handler } = route;
+  router[method as any](path, middleware.concat(userRole(...role)), handler);
 });
 
 export default router;
