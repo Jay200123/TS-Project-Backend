@@ -1,8 +1,8 @@
-import Borow from "./model";
+import Borrow from "./model";
 import { IBorrow } from "../../interface";
 
 const getAll = async () => {
-  return await Borow.find()
+  return await Borrow.find()
     .populate({
       path: "user",
       select: "fullname position",
@@ -29,7 +29,7 @@ const getAll = async () => {
 };
 
 const getById = async (id: string) => {
-  return await Borow.findById(id)
+  return await Borrow.findById(id)
     .populate({
       path: "user",
       select: "fullname position",
@@ -56,23 +56,28 @@ const getById = async (id: string) => {
 };
 
 const Add = async (data: IBorrow) => {
-  return await Borow.create(data);
+  return await Borrow.create(data);
 };
 
 const updateById = async (id: string, data: Partial<IBorrow>) => {
-  return await Borow.findByIdAndUpdate(id, data, {
+  return await Borrow.findByIdAndUpdate(id, data, {
     runValidators: true,
     new: true,
   });
 };
 
 const deleteById = async (id: string) => {
-  return await Borow.findByIdAndDelete(id);
+  return await Borrow.findByIdAndDelete(id);
 };
+
+const findOne = async()=>{
+  return await Borrow.findOne().sort({ createdAt: -1})
+}
 
 export default {
   getAll,
   getById,
+  findOne,
   Add,
   updateById,
   deleteById,
