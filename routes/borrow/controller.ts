@@ -41,8 +41,17 @@ const createBorrow = async (
     borrowedQuantity: equipment.borrowedQuantity + req.body.quantity,
   });
 
+  const lastBorrowed = await borrowService.findOne();
+  let borrowCounter: number = 0;
+  let borrowNumber: string;
+
+  borrowCounter = lastBorrowed ? lastBorrowed.counter + 1 : borrowCounter + 1;
+  borrowNumber = `IT-B-${borrowCounter}`;
+
   const data = await borrowService.Add({
     ...req.body,
+    counter: borrowCounter,
+    borrowNumber: borrowNumber
   });
 
   return !data
@@ -56,13 +65,14 @@ const updateBorrowById = async (
   next: NextFunction
 ) => {
   const borrow = await borrowService.getById(req.params.id);
+
   const equipment = await equipmentService.getById(
-    borrow.equipment?.toString()
+    borrow.equipment?._id.toString()
   );
 
   const isReturned = req.body.status === "returned" ? true : false;
   if (isReturned) {
-    await equipmentService.updateById(borrow.equipment?.toString(), {
+    await equipmentService.updateById(equipment?._id?.toString(), {
       quantity: equipment.quantity + borrow.quantity,
       borrowedQuantity: equipment.borrowedQuantity - borrow.quantity,
     });
@@ -71,16 +81,16 @@ const updateBorrowById = async (
   const isDamage = req.body.status === "returned damaged" ? true : false;
 
   if (isDamage) {
-    await equipmentService.updateById(borrow.equipment?.toString(), {
-      damagedQuantity: equipment.quantity + borrow.quantity,
-      borrowedQuantity: equipment.borrowedQuantity - borrow.quantity,
+    await equipmentService.updateById(equipment?._id?.toString(), {
+      damagedQuantity: equipment?.damagedQuantity + borrow?.quantity,
+      borrowedQuantity: equipment?.borrowedQuantity - borrow?.quantity,
     });
   }
 
   const isLost = req.body.status === "lost" ? true : false;
 
   if (isLost) {
-    await equipmentService.updateById(borrow.equipment?.toString(), {
+    await equipmentService.updateById(equipment?._id?.toString(), {
       lostQuantity: equipment.lostQuantity + borrow.quantity,
       borrowedQuantity: equipment.borrowedQuantity - borrow.quantity,
     });
