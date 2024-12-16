@@ -10,10 +10,13 @@ interface IBorrow extends Document {
   equipment: mongoose.Types.ObjectId | IEquipment;
   serial_number: string;
   reason: string;
+  counter: number;
+  borrowNumber: string;
   borrow_date: Date;
   return_date: Date;
   quantity: number;
   status: BorrowStatus;
+  createdAt: Date;
 }
 
 export type { 
