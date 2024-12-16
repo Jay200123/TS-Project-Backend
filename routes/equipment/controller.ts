@@ -33,10 +33,12 @@ const createEquipment = async (
 ) => {
   const image = await uploadImage(req.files as Express.Multer.File[], []);
   const price = Number(req.body.price);
+  const quantity = Number(req.body.quantity);
 
   const data = await equipmentService.create({
     ...req.body,
     price: price,
+    quantity: quantity,
     image: image,
   });
 
@@ -62,8 +64,13 @@ const updateEquipmentById = async (
     image = equipment.image;
   }
 
+  const price = Number(req.body.price);
+  const quantity = Number(req.body.quantity);
+
   const data = await equipmentService.updateById(req.params.id, {
     ...req.body,
+    price: price,
+    quantity: quantity,
     image: image,
   });
 
