@@ -41,7 +41,19 @@ const borrowSchema: Schema<IBorrow> = new Schema({
     enum: ["returned", "borrowed", "returned damaged", "lost"],
     default: "borrowed",
   },
+  counter: {
+    type: Number,
+    default: 0,
+  },
+  borrowNumber: {
+    type: String,
+    required: true,
+  },
+  createdAt:{
+    type: Date,
+    default: Date.now
+  }
 });
 
-const Borow = model<IBorrow>(RESOURCE.BORROW, borrowSchema);
-export default Borow;
+const Borrow = model<IBorrow>(RESOURCE.BORROW, borrowSchema);
+export default Borrow;
