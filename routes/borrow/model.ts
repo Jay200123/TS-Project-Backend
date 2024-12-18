@@ -49,10 +49,14 @@ const borrowSchema: Schema<IBorrow> = new Schema({
     type: String,
     required: true,
   },
-  createdAt:{
+  signature: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 const Borrow = model<IBorrow>(RESOURCE.BORROW, borrowSchema);
