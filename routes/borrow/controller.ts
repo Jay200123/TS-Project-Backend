@@ -32,12 +32,12 @@ const createBorrow = async (
 ) => {
   const equipment = await equipmentService.getById(req.body.equipment);
 
-  if (equipment.quantity < req.body.quantity) {
+  if (equipment.quantity < Number(req.body.quantity)) {
     return next(new ErrorHandler("Insufficient quantity"));
   }
 
   await equipmentService.updateById(req.body.equipment, {
-    quantity: equipment.quantity - req.body.quantity,
+    quantity: equipment.quantity - Number(req.body.quantity),
     borrowedQuantity: equipment.borrowedQuantity + req.body.quantity,
   });
 
@@ -51,7 +51,7 @@ const createBorrow = async (
   const data = await borrowService.Add({
     ...req.body,
     counter: borrowCounter,
-    borrowNumber: borrowNumber
+    borrowNumber: borrowNumber,
   });
 
   return !data
@@ -70,6 +70,7 @@ const updateBorrowById = async (
     borrow.equipment?._id.toString()
   );
 
+
   const isReturned = req.body.status === "returned" ? true : false;
   if (isReturned) {
     await equipmentService.updateById(equipment?._id?.toString(), {
@@ -82,8 +83,8 @@ const updateBorrowById = async (
 
   if (isDamage) {
     await equipmentService.updateById(equipment?._id?.toString(), {
-      damagedQuantity: equipment?.damagedQuantity + borrow?.quantity,
-      borrowedQuantity: equipment?.borrowedQuantity - borrow?.quantity,
+      damagedQuantity: equipment?.damagedQuantity + borrow.quantity,
+      borrowedQuantity: equipment?.borrowedQuantity - borrow.quantity,
     });
   }
 
@@ -96,12 +97,14 @@ const updateBorrowById = async (
     });
   }
 
+  const quantity = Number(req.body.quantity);  
   const data = await borrowService.updateById(req.params.id, {
     ...req.body,
+    quantity: quantity,
   });
 
   return SuccessHandler(res, "Borrow record updated", data);
-};
+};  
 
 const deleteBorrowById = async (
   req: Request,
