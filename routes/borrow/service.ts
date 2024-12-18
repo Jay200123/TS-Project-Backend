@@ -38,7 +38,11 @@ const getById = async (id: string) => {
         select: "position_name department",
         populate: {
           path: "department",
-          select: "department_name",
+          select: "department_name branch",
+          populate: {
+            path: "branch",
+            select: "branch_name"  
+          }
         },
       },
     })
