@@ -16,6 +16,7 @@ interface IBorrow extends Document {
   return_date: Date;
   quantity: number;
   status: BorrowStatus;
+  signature: string;  
   createdAt: Date;
 }
 
