@@ -1,6 +1,12 @@
 import ticketService from "./service";
 import { Request, Response, NextFunction } from "../../interface";
-import { ErrorHandler, SuccessHandler, uploadImage, sendEmail, upload } from "../../utils";
+import {
+  ErrorHandler,
+  SuccessHandler,
+  uploadImage,
+  sendEmail,
+  upload,
+} from "../../utils";
 import { cloudinary } from "../../config";
 import historyService from "../history/service";
 import deviceService from "../device/service";
@@ -34,7 +40,6 @@ const createTicket = async (
   res: Response,
   next: NextFunction
 ) => {
-
   const lastTicket = await ticketService.getOne();
 
   let counter: number = 0;
@@ -54,8 +59,6 @@ const createTicket = async (
   return SuccessHandler(res, "Ticket created successfully", data);
 };
 
-
-
 const updateTicketById = async (
   req: Request,
   res: Response,
@@ -64,22 +67,21 @@ const updateTicketById = async (
   const ticket = await ticketService.getById(req.params.id);
 
   const device = await deviceService.getById(ticket.device._id.toString());
-  await deviceService.updateById(device?._id.toString(),
-    {
-      status: req.body.device_status,
-    }
-  );
+  await deviceService.updateById(device?._id.toString(), {
+    status: req.body.device_status,
+  });
 
   if (req.body.status === "resolved" || req.body.status === "closed") {
-    await historyService.Add(
-      {
-        ticket: ticket._id,
-        device_status: req.body.device_status,
-      }
-    );
+    await historyService.Add({
+      ticket: ticket._id,
+      device_status: req.body.device_status,
+    });
   }
 
-  const isClosed = req.body.status === "closed" ? new Date : null;
+  const isClosed =
+    req.body.status === "closed" || req.body.status === "resolved"
+      ? new Date()
+      : null;
 
   const oldImage = Array.isArray(ticket?.image)
     ? ticket.image.map((i) => i?.public_id)
@@ -93,20 +95,15 @@ const updateTicketById = async (
     image = ticket?.image;
   }
 
-  const data = await ticketService.updateById(req.params.id,
-    {
-      status: req.body.status,
-      date_resolved: isClosed,
-      findings: req.body.findings,
-      image: image,
-
-    }
-  );
+  const data = await ticketService.updateById(req.params.id, {
+    status: req.body.status,
+    date_resolved: isClosed,
+    findings: req.body.findings,
+    image: image,
+  });
 
   return SuccessHandler(res, "Ticket updated successfully", data);
 };
-
-
 
 const assignTicketById = async (
   req: Request,
@@ -132,8 +129,7 @@ const getTicketsByAssignee = async (
   return !data || data.length === 0
     ? next(new ErrorHandler("No Tickets Found"))
     : SuccessHandler(res, "Tickets data found", data);
-}
-
+};
 
 const deleteTicketById = async (
   req: Request,
@@ -164,12 +160,16 @@ const closeTicketById = async (
 ) => {
   const data = await ticketService.closeById(req.params.id);
   return SuccessHandler(res, "Ticket closed successfully", data);
-}
+};
 
-const claimTicketById = async (req: Request, res: Response, next: NextFunction) => {
+const claimTicketById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const data = await ticketService.claimById(req.params.id, req.body.assignee);
   return SuccessHandler(res, "Ticket claimed successfully", data);
-}
+};
 
 export {
   getAllTickets,
