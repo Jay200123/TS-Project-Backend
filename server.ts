@@ -65,8 +65,10 @@ app.use(errorJson);
 app.use(errorHandler);
 
 mongoose.connection.once("open", () => {
-  app.listen(process.env.PORT);
-  console.log(`Server running on ${process.env.PORT}`);
+  if (process.env.NODE_ENV !== "production") {
+    app.listen(process.env.PORT);
+    console.log(`Server running on ${process.env.PORT}`);
+  }
   console.log(`Mongoose Database connected`);
 });
 
